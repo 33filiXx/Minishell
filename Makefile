@@ -9,7 +9,7 @@ OBJS = $(SRCS:.c=.o)
 all  : $(NAME)
 
 $(LIB):
-	$(MAKE) -C libft/
+	$(MAKE) -C ft_libft/
 
 $(NAME): $(OBJS) $(LIB)
 	$(CC) $(OBJS) $(CFLAGS) $(LIB) -o $(NAME)
@@ -19,10 +19,10 @@ $(NAME): $(OBJS) $(LIB)
 
 clean:
 	rm -f $(OBJS)
-	$(MAKE) clean -C libft/
+	$(MAKE) clean -C ft_libft/
 
 fclean: clean
-	$(MAKE) fclean -C libft/ 
+	$(MAKE) fclean -C ft_libft/ 
 	rm -f $(NAME)
 
 re: fclean all 
