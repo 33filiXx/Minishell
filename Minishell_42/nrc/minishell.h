@@ -1,12 +1,20 @@
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
+
+# include "../../ft_libft/libft.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include "../../ft_libft/libft.h"
+typedef struct s_data
+{
+	void			*contnet;
+	struct s_data	*next;
 
+} t_data;
 
+t_data *creat_node(void *content);
+void add_front(t_data **head , void *content);
 
 #endif

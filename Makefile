@@ -2,7 +2,7 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = Minishell_42/pars/parsing.c Minishell_42/src/main.c
+SRCS = Minishell_42/pars/parsing.c Minishell_42/src/main.c  Minishell_42/pars/helper.c
 
 OBJS = $(SRCS:.c=.o)
 
