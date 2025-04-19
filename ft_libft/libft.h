@@ -6,7 +6,7 @@
 /*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:32:12 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/04/16 17:21:24 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/04/19 18:17:02 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# include <stdint.h>
 
 typedef struct s_list
 {
