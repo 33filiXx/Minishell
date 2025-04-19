@@ -16,5 +16,6 @@ typedef struct s_data
 
 t_data *creat_node(void *content);
 void add_front(t_data **head , void *content);
+void	insert_at_end(t_data **head, void *content);
 
 #endif
