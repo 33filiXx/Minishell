@@ -14,11 +14,6 @@
 
 int main()
 {
-    t_data *head = NULL;
-    int *num = malloc(sizeof(int));
-    *num = -1;
-    add_front(&head , "walid");
-    add_front(&head , num);
-    printf("%d" , *(int *)head->contnet);
+  
     
 }
