@@ -5,8 +5,10 @@ CFLAGS = -Wall -Wextra -Werror
 SRCS = Minishell_42/pars/parsing.c Minishell_42/src/main.c  Minishell_42/pars/lexer_h.c
 
 OBJS = $(SRCS:.c=.o)
+LIB = ./ft_libft/libft.a
 
 all  : $(NAME)
+
 
 $(LIB):
 	$(MAKE) -C ft_libft/

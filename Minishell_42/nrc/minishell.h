@@ -6,14 +6,14 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef enum tokens
+typedef enum t_tokens
 {
 	PIPE,
 	TRUNC,
 	HERDOC,
 	APPEND,
+	INPUT,
 	WORD,
-
 }					e_tokens;
 
 typedef struct s_lexer
@@ -23,8 +23,8 @@ typedef struct s_lexer
 	struct s_lexer	*next;
 }					t_lexer;
 
-t_lexer				*creat_node(char *content);
-void				insert_at_end(t_lexer **head, char *content);
-void				parsing(char **argv);
+t_lexer				*creat_node(char *content , e_tokens token);
+void				insert_at_end(t_lexer **head, char *content , e_tokens token);
+void				parsing(char **argv , t_lexer *lexer);
 
 #endif

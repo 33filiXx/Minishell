@@ -1,21 +1,25 @@
 #include "../nrc/minishell.h"
 
-// void print_node (t_data *head)
-// {
-//     if(!head)
-//         return;
-//     while (head)
-//     {
-        
-//     }
-    
-// }
+void print_node (t_lexer *head)
+{
+    if(!head)
+        return;
+    while (head)
+    {
+        printf("%s : ->>>>>>>>>>>>> %u :\n" , head->content , head->token);
+        head = head->next;
+    }
+}
 
 
 int main(int argc , char *argv[])
 {
-    if (argc >= 0)
+    t_lexer *lexer;
+    lexer = (t_lexer *)malloc(sizeof(t_lexer));
+    if (argc >= 1)
     {
-        parsing(argv);
+        parsing(argv , lexer);
+        print_node(lexer);
     }
+
 }

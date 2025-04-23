@@ -6,37 +6,61 @@
 /*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:12:47 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/04/19 19:01:01 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/04/23 10:52:16 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../nrc/minishell.h"
 
-void store_into_nodes(char **str)
+void	ft_free(char **ptr)
 {
-    int i;
-    int j;
-    char **new_str;
-    t_lexer lexer;
+	int	i;
 
-    i = 0;
-    new_str = ft_split(str , ' ');
-    while (new_str[i] != NULL)
-    {
-        j = 0;
-        while (new_str[i][j] != '\0')
-        {
-            
-            j++;
-        }
-        i++;
-    }
-    
+	i = 0;
+	while (ptr[i])
+	{
+		free(ptr[i]);
+		i++;
+	}
+	free(ptr);
+	ptr = NULL;
 }
 
-
-
-void parsing(char **argv)
+void	store_into_nodes(char **str , t_lexer *lexer)
 {
-    store_into_nodes(argv);       
+	int		i;
+	int		j;
+	int		p;
+	char	**new_str;
+
+	i = 1;
+	p = 0;
+	while (str[i] != NULL)
+	{
+		new_str = ft_split(str[i], ' ');
+		j = 0;
+		while (new_str[j] != NULL)
+		{
+			if (new_str[j][p] == '|')
+				insert_at_end(&lexer , new_str[j] , PIPE);
+			if (new_str[j][p] == '>')
+				insert_at_end(&lexer , new_str[j] , TRUNC);
+			if (new_str[j][p] == '<')
+				insert_at_end(&lexer , new_str[j] , INPUT);
+			if (new_str[j][p] == '>' && new_str[j][p + 1] == '>')
+				insert_at_end(&lexer , new_str[j] , APPEND);
+			if (new_str[j][p] == '<' && new_str[j][p + 1] == '<')
+				insert_at_end(&lexer , new_str[j] , HERDOC);
+			else
+				insert_at_end(&lexer , new_str[j] , WORD);
+		//	free(*new_str);
+			j++;
+		}
+		i++;
+	}
+}
+
+void	parsing(char **argv , t_lexer *lexer)
+{
+	store_into_nodes(argv , lexer);
 }
