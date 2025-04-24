@@ -1,0 +1,8 @@
+Order	Command	Type
+1	echo	Easy
+2	pwd	Easy
+3	cd	Medium (stateful)
+4	exit	Medium (ends shell)
+5	env	Medium
+6	export	Hard (needs env handling)
+7	unset	Hard (linked list or env array edits)
