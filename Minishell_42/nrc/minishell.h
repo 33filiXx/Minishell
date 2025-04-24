@@ -33,6 +33,12 @@ typedef struct s_command {
 	int saved_stdout;
 }	t_command;
 
+typedef struct s_env
+{
+	char	*key;
+	char	*value;
+	struct s_env	*next;
+}	t_env;
 
 t_lexer *creat_node(char *content);
 void add_front(t_lexer **head , char *content);
