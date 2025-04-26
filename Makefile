@@ -14,7 +14,7 @@ $(LIB):
 	$(MAKE) -C ft_libft/
 
 $(NAME): $(OBJS) $(LIB)
-	$(CC) $(OBJS) $(CFLAGS) $(LIB) -o $(NAME)
+	$(CC) $(OBJS) $(CFLAGS) $(LIB) -lreadline -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

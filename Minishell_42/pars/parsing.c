@@ -6,7 +6,7 @@
 /*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:12:47 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/04/24 17:17:19 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:44:11 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,19 @@ void	ft_free(char **ptr)
 	ptr = NULL;
 }
 
-void	store_into_nodes(char **str, t_lexer *lexer)
+void	store_into_nodes(char *str, t_lexer *lexer)
 {
-	int		i;
+	//int		i;
 	int		j;
-	int		p;
+	//int		p;
 	char	**new_str;
 
-	i = 1;
-	p = 0;
-	while (str[i] != NULL)
+	//i = 1;
+	//p = 0;
+	new_str = ft_split(str, ' ');
+	j = 0;
+	while (new_str[j] != NULL)
 	{
-		new_str = ft_split(str[i], ' ');
-		j = 0;
-		while (new_str[j] != NULL)
-		{
 			if (ft_strcmp(new_str[j], "|") == 0)
 				insert_at_end(&lexer, new_str[j], PIPE);
 			else if (ft_strcmp(new_str[j], ">") == 0)
@@ -66,12 +64,11 @@ void	store_into_nodes(char **str, t_lexer *lexer)
 				insert_at_end(&lexer, new_str[j], WORD);
 			//	free(*new_str);
 			j++;
-		}
-		i++;
 	}
 }
 
-void	parsing(char **argv, t_lexer *lexer)
+void	parsing(char *argv, t_lexer *lexer)
 {
+	
 	store_into_nodes(argv, lexer);
 }
