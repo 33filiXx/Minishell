@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/04/26 08:59:29 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/04/26 20:08:30 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int main(int argc , char *argv[])
         {
             input = readline("minishell$ ");
             parsing(input , lexer);
-            if (ft_strcmp(input, "exit") == 0)
+            if (ft_strcmp(input, "ex") == 0)
                 break;
             // if (*input)
             //     add_history(input);
