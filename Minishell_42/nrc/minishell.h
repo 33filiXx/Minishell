@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/26 08:26:08 by wel-mjiy          #+#    #+#             */
+/*   Updated: 2025/04/26 08:59:39 by wel-mjiy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -5,44 +18,32 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
-typedef enum tokens {
-	PIPE,
-	TRUNC,
-	HERDOC,
-	APPEND, 
-}	e_tokens;
-
-
-typedef struct s_lexer {
-	e_tokens token;
-	char *content;
-	struct s_lexer	*next;
-}	t_lexer;
-
-typedef struct s_command {
-	char *name;                
-	char **args;              
-	char *input_file;         
-	char *output_file;        
-	char *append_file;        
-	char *heredoc_delimiter;  
-	int pipe_in;               
-	int pipe_out;       
-	int saved_stdin;    
-	int saved_stdout;
-}	t_command;
-
-typedef struct s_env
+typedef enum t_tokens
 {
-	char	*key;
-	char	*value;
-	struct s_env	*next;
-}	t_env;
+	PIPE, // | 
+	TRUNC, // >
+	HERDOC, // << 
+	APPEND, // >>
+	INPUT, //  <
+	WORD, // commend
+}					e_tokens;
 
-t_lexer *creat_node(char *content);
-void add_front(t_lexer **head , char *content);
-void	insert_at_end(t_lexer **head, char *content);
+typedef struct s_lexer
+{
+	e_tokens		token;
+	char			*content;
+	struct s_lexer	*next;
+}					t_lexer;
+
+t_lexer				*creat_node(char *content, e_tokens token);
+void				insert_at_end(t_lexer **head, char *content,
+						e_tokens token);
+void				parsing(char *argv, t_lexer *lexer);
+int	ft_strcmp(char *s1, char *s2);
+void ft_free_nodes(t_lexer *lexer);
 
 // exec builtin
 int	echo_builtin(char **args);
