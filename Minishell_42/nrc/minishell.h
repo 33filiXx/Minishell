@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -21,32 +20,55 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-typedef enum t_tokens
-{
-	PIPE, // | 
-	TRUNC, // >
-	HERDOC, // << 
-	APPEND, // >>
-	INPUT, //  <
-	WORD, // commend
-}					e_tokens;
+typedef enum tokens {
+	PIPE,
+	TRUNC,
+	HERDOC,
+	APPEND,
+	INPUT,
+	WORD,
+}	e_tokens;
 
-typedef struct s_lexer
-{
-	e_tokens		token;
-	char			*content;
+
+typedef struct s_lexer {
+	e_tokens token;
+	char *content;
 	struct s_lexer	*next;
-}					t_lexer;
+}	t_lexer;
 
-t_lexer				*creat_node(char *content, e_tokens token);
-void				insert_at_end(t_lexer **head, char *content,
-						e_tokens token);
-void				parsing(char *argv, t_lexer *lexer);
-int	ft_strcmp(char *s1, char *s2);
-void ft_free_nodes(t_lexer *lexer);
+typedef struct s_command {
+	char *name;                
+	char **args;              
+	char *input_file;         
+	char *output_file;        
+	char *append_file;        
+	char *heredoc_delimiter;  
+	int pipe_in;               
+	int pipe_out;       
+	int saved_stdin;    
+	int saved_stdout;
+}	t_command;
+
+typedef struct s_env
+{
+	char	*key;
+	char	*value;
+	struct s_env	*next;
+}	t_env;
+
+//parc
+t_lexer				*creat_node(char *content , e_tokens token);
+void				insert_at_end(t_lexer **head, char *content , e_tokens token);
+void				parsing(char **argv , t_lexer *lexer);
 
 // exec builtin
-int	echo_builtin(char **args);
-int	pwd_builtin(void);
+int		echo_builtin(char **args);
+int		pwd_builtin(void);
+int		cd_builtin(char **args, t_env **env);
+int		exit_builtin(char **args);
+int		env_builtin(t_env *env);
+int		export_builtin(char **args, t_env **env);
+int		unset_builtin(char **args, t_env **env);
+
 
 #endif

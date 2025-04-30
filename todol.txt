@@ -6,3 +6,11 @@ Order	Command	Type
 5	env	Medium
 6	export	Hard (needs env handling)
 7	unset	Hard (linked list or env array edits)
+
+Step | What to implement | Needed for
+1 | init_env(envp) → build list | startup
+2 | get_env_value(env, key) | cd, pwd, env
+3 | set_env_value(env, key, value) | cd, export, etc.
+4 | unset_env(env, key) | unset
+5 | print_env(env) | env command
+6 | Optional: env_to_array() | if you later use execve()

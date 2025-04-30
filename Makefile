@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -lreadline
 
 SRCS = Minishell_42/pars/parsing.c Minishell_42/src/main.c  Minishell_42/pars/lexer_h.c Minishell_42/exec/start_exc.c Minishell_42/exec/builtin/echo.c
 

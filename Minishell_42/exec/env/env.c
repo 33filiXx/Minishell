@@ -12,3 +12,82 @@
 
 #include "../../nrc/minishell.h"
 
+// 1. Initialize empty list head = NULL
+// 2. For each envp[i] until NULL:
+//    a. Split envp[i] into key and value (at first '=')
+//    b. Create a new t_env node with key and value
+//    c. Add the new node to the list
+// 3. Return the head of the list
+// 1. malloc(sizeof(t_env))
+// 2. node->key = strdup(key)
+// 3. node->value = strdup(value)
+// 4. node->next = NULL
+// 5. return node
+
+t_env	*env_node_new(void *key, void *value)
+{
+	t_env	*node;
+
+	node = malloc(sizeof(t_env));
+	if (!node)
+	{
+		free(node);
+		return (NULL);
+	}
+	node->key = ft_strdup("key");
+	node->value = ft_strdup("value");
+	node->next = NULL;
+	return (node);
+}
+
+void	env_add_back(t_env **lst, t_env *new)
+{
+	t_env	*tmp;
+
+	tmp = *lst;
+	if (!lst || !new)
+		return ;
+	if (*lst == NULL)
+		*lst = new;
+	else
+	{
+		while ((tmp)->next != NULL)
+			(tmp) = (tmp)->next;
+		tmp->next = new;
+	}
+}
+t_env	*init_env(char **envp)
+{
+    t_env	*env;
+    int		i;
+	char	**split;
+
+    i = 0;
+    env = NULL;
+    while (envp[i])
+    {
+		split = ft_split(envp[i], '=');
+		env_add_back(&env,  env_node_new(split[0], split[1]));
+        i++;
+    }
+    return (env);
+}
+
+void print_node(t_env *head)
+{
+    if(!head)
+        return;
+    while (head)
+    {
+        printf("%s : ->>>>>>>>>>>>> %s :\n" ,  head->key ,head->value);
+        head = head->next;
+	}
+}
+
+int main(int ac, char **av, char **envp)
+{
+	(void)ac;
+	(void)av;
+	t_env *test = init_env(envp);
+	print_node(test);
+}

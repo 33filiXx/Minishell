@@ -25,11 +25,14 @@ void print_node (t_lexer *head)
 }
 
 
-int main(int argc , char *argv[])
+int main(int argc , char *argv[], char **envp)
 {
     (void)argv;
     t_lexer *lexer;
     char *input;
+    t_env *env;
+
+    env = init_env(envp);
     lexer = (t_lexer *)malloc(sizeof(t_lexer));
     if (argc > 0)
     {
