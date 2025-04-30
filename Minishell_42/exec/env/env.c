@@ -56,21 +56,47 @@ void	env_add_back(t_env **lst, t_env *new)
 		tmp->next = new;
 	}
 }
+
 t_env	*init_env(char **envp)
 {
     t_env	*env;
     int		i;
 	char	**split;
+	char	*equal;
 
     i = 0;
     env = NULL;
     while (envp[i])
     {
-		split = ft_split(envp[i], '=');
-		env_add_back(&env,  env_node_new(split[0], split[1]));
+		equal = ft_strchr(envp[i], '=');
+		if (equal)
+		{
+			split = ft_split(envp[i], '=');
+			if (split && split[0])
+				env_add_back(&env,  env_node_new(split[0], split[1]));
+			free_split(split);
+		}
+		else
+			env_add_back(&env, env_node_new(envp[i], NULL));
         i++;
     }
     return (env);
+}
+
+char	*get_env_value(t_env *env, const char *key)
+{
+	while (env)
+	{
+		if (ft_strcmp(env->key, key) == 0)
+			return (env->value);
+		env = env->next;
+	}
+	return (NULL);
+}
+
+void	set_env_value(t_env **env, const char *key, const char *value)
+{
+	
 }
 
 void print_node(t_env *head)

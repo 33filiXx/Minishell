@@ -60,6 +60,7 @@ typedef struct s_env
 t_lexer				*creat_node(char *content , e_tokens token);
 void				insert_at_end(t_lexer **head, char *content , e_tokens token);
 void				parsing(char **argv , t_lexer *lexer);
+int					ft_strcmp(char *s1, char *s2);
 
 // exec builtin
 int		echo_builtin(char **args);
@@ -70,5 +71,12 @@ int		env_builtin(t_env *env);
 int		export_builtin(char **args, t_env **env);
 int		unset_builtin(char **args, t_env **env);
 
+//env_handel
+t_env	*init_env(char **envp);
+char	*get_env_value(t_env *env, const char *key);
+void	set_env_value(t_env **env, const char *key, const char *value);
+
+// memory_management
+void	free_slpit(char **s);
 
 #endif
