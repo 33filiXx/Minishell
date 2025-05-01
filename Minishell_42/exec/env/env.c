@@ -96,7 +96,22 @@ char	*get_env_value(t_env *env, const char *key)
 
 void	set_env_value(t_env **env, const char *key, const char *value)
 {
-	
+	t_env	*tmp;
+	t_env	*new;
+
+	tmp = *env;
+	while (tmp)
+	{
+		if (ft_strcmp((tmp)->key, key) == 0)
+		{
+			free(tmp->value);
+			tmp->value = ft_strdup(value);
+			return ;
+		}
+		tmp = tmp->next;
+	}
+	new = env_node_new(key, value);
+	env_add_back(env, new);
 }
 
 void print_node(t_env *head)
