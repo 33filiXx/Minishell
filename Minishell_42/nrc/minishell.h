@@ -10,7 +10,7 @@
 
 typedef enum t_tokens
 {
-	PIPE, // | 
+	PIPE, // |
 	TRUNC, // >
 	HERDOC, // << 
 	APPEND, // >>
