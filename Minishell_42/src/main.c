@@ -28,7 +28,8 @@ int main(int argc , char *argv[])
                 break;
             // if (*input)
             //     add_history(input);
-            print_node(lexer);
+             print_node(lexer);
+            
             //ft_free_nodes(lexer);
             //printf("%s\n" , input);
         }
