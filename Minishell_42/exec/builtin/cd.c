@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:47:19 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/04/24 22:24:52 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/09 21:36:42 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,7 @@
 // cd - | Goes to the $OLDPWD (previous directory)
 // cd relative/ | Goes to a relative directory
 
-
+int		cd_builtin(t_env *env, char **args)
+{
+    
+}
