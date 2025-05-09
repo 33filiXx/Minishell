@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_strat.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:47:23 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/04/26 20:47:34 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/09 21:22:13 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,21 @@
 // 4. node->next = NULL
 // 5. return node
 
-t_env	*env_node_new(void *key, void *value)
+/*how unset worl
+When the user runs unset VAR_NAME, this function is called.
+
+It searches for the node in your linked list with a key that matches VAR_NAME.
+
+If it finds it:
+
+It disconnects it from the list.
+
+It frees the memory of that node (no memory leaks).
+
+If it doesn’t find the key, it does nothing.
+*/
+
+t_env	*env_node_new(const char *key, const char *value)
 {
 	t_env	*node;
 
@@ -114,26 +128,40 @@ void	set_env_value(t_env **env, const char *key, const char *value)
 	env_add_back(env, new);
 }
 
-void unset_env(t_env **env, const char *key)
+void	unset_env(t_env **env, const char *key)
 {
+	t_env	*cur;
+	t_env	*prev;
 
-}
-
-void print_node(t_env *head)
-{
-    if(!head)
-        return;
-    while (head)
-    {
-        printf("%s : ->>>>>>>>>>>>> %s :\n" ,  head->key ,head->value);
-        head = head->next;
+	if (!*env)
+		return;
+	cur = *env;
+	prev = NULL;
+	while (cur)
+	{
+		if (ft_strcmp(cur->key, key) == 0)
+		{
+			if (prev == NULL)
+				*env = cur->next;
+			else
+				prev->next = cur->next;
+			free(cur->key);
+			free(cur->value);
+			free(cur);
+			return;
+		}
+		prev = cur;
+		cur = cur->next;
 	}
 }
 
-int main(int ac, char **av, char **envp)
+void	print_env(t_env *env)
 {
-	(void)ac;
-	(void)av;
-	t_env *test = init_env(envp);
-	print_node(test);
+	while (env)
+	{
+		// Only print variables that have a value
+		if (env->value)
+			printf("%s=%s\n", env->key, env->value);
+		env = env->next;
+	}
 }
