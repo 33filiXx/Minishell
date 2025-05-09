@@ -114,6 +114,11 @@ void	set_env_value(t_env **env, const char *key, const char *value)
 	env_add_back(env, new);
 }
 
+void unset_env(t_env **env, const char *key)
+{
+
+}
+
 void print_node(t_env *head)
 {
     if(!head)

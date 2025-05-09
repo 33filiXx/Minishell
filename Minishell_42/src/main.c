@@ -24,7 +24,6 @@ void print_node (t_lexer *head)
     }
 }
 
-
 int main(int argc , char *argv[], char **envp)
 {
     (void)argv;
