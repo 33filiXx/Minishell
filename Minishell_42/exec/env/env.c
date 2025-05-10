@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:47:23 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/09 21:22:13 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/10 21:34:54 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ t_env	*env_node_new(const char *key, const char *value)
 		free(node);
 		return (NULL);
 	}
-	node->key = ft_strdup("key");
-	node->value = ft_strdup("value");
+	node->key = ft_strdup(key);
+	node->value = ft_strdup(value);
 	node->next = NULL;
 	return (node);
 }
