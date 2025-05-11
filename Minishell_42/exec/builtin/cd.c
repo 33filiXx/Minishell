@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:47:19 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/10 21:26:07 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/11 19:52:30 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	cd_builtin(t_env *env, char **args)
 	char	*home_path;
 	char	*target_path;
 	char	*old_path;
+	char	*new_path;
 
 	if (args[1] == NULL || ft_strcmp(args[1], "~") == 0)
 	{
@@ -34,24 +35,21 @@ int	cd_builtin(t_env *env, char **args)
 		}
 		target_path = home_path;
 	}
-	else if (ft_strcmp(args[1], "-") == 0)
-	{
-		old_path = get_env_value(env, "OLDPWD");
-		if (!old_path)
-		{
-			fprintf(stderr, "cd: OLDPWD not set\n");
-			return (1);
-		}
-		target_path = old_path;
-	}
 	else
 		target_path = args[1];
+	old_path = getcwd(NULL, 0);
 	if(chdir(target_path) == -1)
 	{
 		fprintf(stderr, "minishell: cd");
 		return (1);
 	}
-	set_env_value(&env, "OLDPWD", get_env_value(env, "PWD"));
-	set_env_value(&env, "PWD", getcwd(NULL, 0));
+	new_path = getcwd(NULL, 0);
+	if (new_path)
+	{
+		set_env_value(&env, "OLDPWD", old_path);
+		set_env_value(&env, "PWD", new_path);
+	}
+	else
+		fprintf(stderr, "cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:47:23 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/10 21:34:54 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/11 20:09:54 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ t_env	*init_env(char **envp)
 {
     t_env	*env;
     int		i;
-	char	**split;
+	char	*key;
+	char	*value;
 	char	*equal;
 
     i = 0;
@@ -85,10 +86,11 @@ t_env	*init_env(char **envp)
 		equal = ft_strchr(envp[i], '=');
 		if (equal)
 		{
-			split = ft_split(envp[i], '=');
-			if (split && split[0])
-				env_add_back(&env,  env_node_new(split[0], split[1]));
-			free_split(split);
+			key = ft_substr(envp[i], 0, equal - envp[i]);
+			value = ft_strdup(equal + 1);
+			env_add_back(&env, env_node_new(key, value));
+			free(key);
+			free(value);
 		}
 		else
 			env_add_back(&env, env_node_new(envp[i], NULL));
