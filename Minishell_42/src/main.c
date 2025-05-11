@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/11 20:03:34 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/11 20:37:47 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,7 @@ int main(int argc, char *argv[], char **envp)
         }
         else if (args[0] && ft_strcmp(args[0], "export") == 0)
         {
-            if (args[1])
-                set_env_value(&env, args[1], args[2] ? args[2] : "");
-            else
-                print_env(env);
+            export_builtin(&env, args);
         }
         else if (args[0] && ft_strcmp(args[0], "unset") == 0)
         {
