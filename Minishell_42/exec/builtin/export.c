@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 20:27:30 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/13 17:42:14 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/13 21:34:38 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	is_valid_identifier(char *s)
 	i = 1;
 	while (s[i])
 	{
-		if (!ft_isalnum(s[i]))
+		if (!ft_isalnum(s[i]) && s[i] != '_')
 			return (1);
 		i++;
 	}
@@ -53,10 +53,50 @@ void	print_env_export(t_env *env)
 	}
 }
 
+void	equal_sign(char *arg, char **key, char **value)
+{
+	char	*equal;
+	
+	equal = strchr(arg, '='); 
+	if (equal)
+	{
+		*key = ft_substr(arg, 0, equal - arg);
+		*value = ft_strdup(equal + 1);
+	}
+	else
+	{
+		*key = ft_strdup(arg);
+		*value = NULL;
+	}
+}
+
+void	plus_sign(t_env **env, char *arg, char **key, char **value)
+{
+	char	*equal;
+	char	*exist_value;
+	char	*new;
+
+	equal = strchr(arg, '=');
+	if (equal)
+	{
+		*key = ft_substr(arg, 0, equal - arg);
+		*value = ft_strdup(equal + 1);
+		
+		exist_value = get_env_value(*env, *key);
+		if (exist_value)
+		{
+			new = ft_strjoin(exist_value, *value);
+			set_env_value(env, *key, new);
+			free(new);
+		}
+		else
+			set_env_value(env, *key, *value);
+	}
+}
+
 int	export_builtin(t_env **env, char **args)
 {
 	int	i;
-	char	*equal;
 	char	*key;
 	char	*value;
 
@@ -65,23 +105,18 @@ int	export_builtin(t_env **env, char **args)
 		print_env_export(*env);
 	while (args[i])
 	{
-		equal = strchr(args[i], '=');
-		if (equal)
-		{
-			key = ft_substr(args[i], 0, equal - args[i]);
-			value = ft_strdup(equal + 1);
-		}
+		if (strchr(args[i], '+') != NULL)
+            plus_sign(env, args[i], &key, &value);
 		else
 		{
-			key = ft_strdup(args[i]);
-			value = NULL;
+			equal_sign(args[i], &key, &value);
+			if (is_valid_identifier(key))
+				fprintf (stderr, "export: `%s`: not a valid identifier\n", key);
+			else
+				set_env_value(env, key, value);
+			free(key);
+			free(value);
 		}
-		if (is_valid_identifier(key))
-			fprintf (stderr, "export: `%s`: not a valid identifier\n", key);
-		else
-			set_env_value(env, key, value);
-		free(key);
-		free(value);
 		i++;
 	}
 	return (0);

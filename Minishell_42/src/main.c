@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/11 20:37:47 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:18:17 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int main(int argc, char *argv[], char **envp)
         input = readline("minishell$ ");
         if (input == NULL)
             break; // Handle EOF or empty input
-
+        if (*input) // Only add non-empty input
+            add_history(input);
         if (ft_strcmp(input, "exit") == 0)
         {
             free(input);
@@ -85,6 +86,7 @@ int main(int argc, char *argv[], char **envp)
         free(input);
         free_split(args);
     }
+    write_history(".minishell_history");
     free_env(env);
     return 0;
 }
