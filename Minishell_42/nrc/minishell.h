@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:26:08 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/13 18:11:51 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/13 21:53:09 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int		exit_builtin(char **args);
 int		env_builtin(t_env *env);
 int		export_builtin(t_env **env, char **args);
 void	print_env_export(t_env *env);
-t_env	*sort_env(t_env *env);
 void	unset_env(t_env **env, const char *key);
 
 //env_handel
