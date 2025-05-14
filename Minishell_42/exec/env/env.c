@@ -44,10 +44,7 @@ t_env	*env_node_new(const char *key, const char *value)
 
 	node = malloc(sizeof(t_env));
 	if (!node)
-	{
-		free(node);
 		return (NULL);
-	}
 	node->key = ft_strdup(key);
 	node->value = ft_strdup(value);
 	node->next = NULL;
@@ -130,12 +127,41 @@ void	set_env_value(t_env **env, const char *key, const char *value)
 	env_add_back(env, new);
 }
 
+void	clear_env(t_env **env)
+{
+    t_env *tmp;
+
+    while (*env)
+    {
+        tmp = *env;
+        free(tmp->key);
+        free(tmp->value);
+        *env = tmp->next;
+        free(tmp);
+    }
+    *env = NULL;
+}
+
+void	init_minimal_env(t_env **env)
+{
+    char cwd[1024];
+
+    if (getcwd(cwd, sizeof(cwd)))
+        set_env_value(env, "PWD", cwd);
+    set_env_value(env, "SHLVL", "1");
+    set_env_value(env, "_", "");
+}
+
 void	print_env(t_env *env)
 {
+	if (!env)
+    {
+        clear_env(&env);
+        init_minimal_env(&env);
+    }
 	while (env)
 	{
-		// Only print variables that have a value
-		if (env->value)
+		if (env->key && env->value)
 			printf("%s=%s\n", env->key, env->value);
 		env = env->next;
 	}
