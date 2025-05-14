@@ -130,33 +130,6 @@ void	set_env_value(t_env **env, const char *key, const char *value)
 	env_add_back(env, new);
 }
 
-void	unset_env(t_env **env, const char *key)
-{
-	t_env	*cur;
-	t_env	*prev;
-
-	if (!*env)
-		return;
-	cur = *env;
-	prev = NULL;
-	while (cur)
-	{
-		if (ft_strcmp(cur->key, key) == 0)
-		{
-			if (prev == NULL)
-				*env = cur->next;
-			else
-				prev->next = cur->next;
-			free(cur->key);
-			free(cur->value);
-			free(cur);
-			return;
-		}
-		prev = cur;
-		cur = cur->next;
-	}
-}
-
 void	print_env(t_env *env)
 {
 	while (env)

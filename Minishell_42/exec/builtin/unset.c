@@ -14,16 +14,27 @@
 
 void	unset_env(t_env **env, const char *key)
 {
-	t_env = tmp;
-	if (!env || !key)
+	t_env	*cur;
+	t_env	*prev;
+
+	if (!*env)
 		return;
-	while (*env)
+	cur = *env;
+	prev = NULL;
+	while (cur)
 	{
-		if (!ft_strcmp((*env)->key, key))
+		if (ft_strcmp(cur->key, key) == 0)
 		{
-			
+			if (prev == NULL)
+				*env = cur->next;
+			else
+				prev->next = cur->next;
+			free(cur->key);
+			free(cur->value);
+			free(cur);
+			return;
 		}
-		(*env) = (*env)->next;
+		prev = cur;
+		cur = cur->next;
 	}
-		
 }
