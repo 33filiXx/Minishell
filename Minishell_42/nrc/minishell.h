@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:26:08 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/13 21:53:09 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:40:37 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,16 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+#define REDIR_IN   1  // <
+#define REDIR_OUT  2  // >
+#define REDIR_APPEND 3 // >>
+#define HEREDOC    4  // <<
+
 typedef enum t_tokens
 {
 	PIPE, // |
 	TRUNC, // >
-	HERDOC, // << 
+	HERDOC, // <<
 	APPEND, // >>
 	INPUT, //  <
 	WORD, // commend
@@ -37,18 +42,19 @@ typedef struct s_lexer
 	struct s_lexer	*next;
 }					t_lexer;
 
+typedef struct s_redirection {
+	int  type;              // 1: <, 2: >, 3: >>, 4: << mt3l9a bdik define li dart lik
+    char *filename;        // e.g., "output.txt"
+    struct s_redirection *next;
+} t_redirection;
+
 typedef struct s_command {
-	char *name;                
-	char **args;              
-	char *input_file;         
-	char *output_file;        
-	char *append_file;        
-	char *heredoc_delimiter;  
-	int pipe_in;               
-	int pipe_out;       
-	int saved_stdin;    
-	int saved_stdout;
-}	t_command;
+    char **argv;                // e.g., {"grep", "hello", NULL}
+    t_redirection *redirs;       // linked list of redirections
+    int pipe_in;                 // 1 if input is from previous pipe tanchra7om lik hado ra shalin
+    int pipe_out;                // 1 if output goes to next pipe
+    struct s_command *next;      // next command in pipe chain
+} t_command;
 
 typedef struct s_env
 {
