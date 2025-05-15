@@ -6,7 +6,7 @@
 /*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:12:47 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/04/24 18:44:11 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:32:18 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,8 +232,10 @@ void check_pipe(t_lexer *lexer)
 
 void check_ifonly_op(t_lexer *lexer)
 {
-	if (lexer == NULL)
+	if (!lexer)
+	{
 		return;
+	}
 	t_lexer *tmp = lexer->next;
 	char *str = lexer->content;
 	if(strcmp(lexer->content , "<<") == 0 && tmp == NULL)
@@ -251,19 +253,25 @@ void check_ifonly_op(t_lexer *lexer)
 	else if((strcmp(lexer->content , "|") == 0 || strcmp(lexer->content , "|") != 0) && tmp == NULL)
 	{
 		if (pipe_counter(str) == 1)
+		{
 			printf("bash: syntax error near unexpected token `|'\n");
+			ft_free_nodes(lexer);
+			exit(1);
+		}
 		else if (pipe_counter(str) > 1)
+		{
 			printf("bash: syntax error near unexpected token `||'\n");
-		ft_free_nodes(lexer);
-		exit(1);
+			ft_free_nodes(lexer);
+			exit(1);
+		}
 	}
 }
 void	parsing(char *argv, t_lexer *lexer)
 {
 	
-	store_into_nodes(argv, lexer);
+	store_into_nodes(argv, lexer);	
 	check_ifonly_op(lexer->next);
-	check_herdoc(lexer->next);
-	check_append(lexer->next);
-	check_pipe(lexer->next);
+	//check_herdoc(lexer->next);
+	//check_append(lexer->next);
+	//check_pipe(lexer->next);
 }

@@ -6,7 +6,7 @@
 /*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:09:58 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/14 23:03:12 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:27:51 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_command	*new_command_node(void)
 		return (NULL);
 	node->argv = NULL;   // still empty, ghadi t-allociha mn b3d
 	node->redirs = NULL; // redirection list, bda f NULL
-	node->pipe_in = 0;   // default: no input pipe
+	node->pipe_in = 1;   // default: no input pipe
 	node->pipe_out = 0;  // default: no output pipe
 	node->next = NULL;   // no next command yet
 	return (node);
@@ -101,8 +101,10 @@ void	parser(t_lexer *lexer, t_command **command_list)
 				redir->type = REDIR_IN;
             add_redir_back(&command->redirs , redir);
             lexer = lexer->next;
-            if(lexer->token == WORD  && lexer->next->token != WORD)
+            if( lexer && lexer->next && lexer->token == WORD  && lexer->next->token != WORD)
                 lexer = lexer->next;
+			else if (!lexer->next)
+				return;
 		}
 		if (lexer && lexer->token == PIPE)
 		{
@@ -117,8 +119,12 @@ void	parser(t_lexer *lexer, t_command **command_list)
 				command->pipe_in = 1;
 				command->pipe_out = 1;
 			}
-			
 		    lexer = lexer->next;
+		}
+		else
+		{
+			command->pipe_in = 0;
+			command->pipe_out = 0;
 		}
 	}
 }

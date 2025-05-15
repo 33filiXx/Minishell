@@ -21,7 +21,7 @@ void print_node(t_command *head)
             int type = redir->type;
             char *smiyadyaltype = NULL;
             switch (type)
-            {
+            {   
             case 1:
                 smiyadyaltype = "REDIR_IN";
                 break;
