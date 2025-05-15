@@ -6,7 +6,7 @@
 /*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:09:58 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/15 16:27:51 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:08:49 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,23 @@ void add_redir_back(t_redirection **head, t_redirection *new)
     }
 }
 
+int found_pipe(t_lexer *lexer)
+{
+	if (!lexer)
+		return 1;
+	int check = 0;
+	while (lexer)
+	{
+		if (lexer->token == PIPE)
+		{
+			check = 1;
+			return check;
+		}
+		lexer = lexer->next;
+	}
+	return check;
+}
+
 void	parser(t_lexer *lexer, t_command **command_list)
 {
 	int				i;
@@ -62,6 +79,7 @@ void	parser(t_lexer *lexer, t_command **command_list)
 
 	i = 0;
 	check_pipe = 0;
+	int check_out = 0;
 	while (lexer)
 	{
 		command = new_command_node();
@@ -70,6 +88,15 @@ void	parser(t_lexer *lexer, t_command **command_list)
         if (!command->argv)
             return;
         i = 0;
+		if (found_pipe(lexer) == 0 && check_out == 0)
+		{
+			command->pipe_in = 0;
+			command->pipe_out = 0;
+			check_out = 1;
+		}
+		else
+			check_out = 1;
+		
 		while (lexer && lexer->token == WORD)
 		{
 			command->argv[i] = ft_strdup(lexer->content);
@@ -105,7 +132,7 @@ void	parser(t_lexer *lexer, t_command **command_list)
                 lexer = lexer->next;
 			else if (!lexer->next)
 				return;
-		}
+		}	
 		if (lexer && lexer->token == PIPE)
 		{
 			if (check_pipe == 0)
@@ -121,10 +148,6 @@ void	parser(t_lexer *lexer, t_command **command_list)
 			}
 		    lexer = lexer->next;
 		}
-		else
-		{
-			command->pipe_in = 0;
-			command->pipe_out = 0;
-		}
+	
 	}
 }
