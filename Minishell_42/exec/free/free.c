@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/18 12:03:37 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/04/19 18:28:45 by wel-mjiy         ###   ########.fr       */
+/*   Created: 2025/04/24 16:47:19 by ykhoussi          #+#    #+#             */
+/*   Updated: 2025/05/09 20:35:16 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../nrc/minishell.h"
 
-t_list	*ft_lstnew(void *content)
+void	free_split(char **s)
 {
-	t_list	*node;
+	int	i;
 
-	node = malloc(sizeof(t_list));
-	if (!node)
+	if (!s)
+		return;
+	i = 0;
+	while (s[i])
 	{
-		free(node);
-		return (NULL);
+		free(s[i]);
+		i++;
 	}
-	node->content = content;
-	node->next = NULL;
-	return (node);
+	free(s);
 }

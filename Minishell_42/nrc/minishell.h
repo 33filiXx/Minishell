@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:26:08 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/04/26 08:26:09 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:40:37 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -21,7 +20,10 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> yassir
 #define REDIR_IN   1  // <
 #define REDIR_OUT  2  // >
 #define REDIR_APPEND 3 // >>
@@ -58,13 +60,49 @@ typedef struct s_command {
     struct s_command *next;      // next command in pipe chain
 } t_command;
 
+<<<<<<< HEAD
+=======
+typedef struct s_env
+{
+	char	*key;
+	char	*value;
+	struct s_env	*next;
+}	t_env;
+>>>>>>> yassir
 
 t_lexer				*creat_node(char *content, e_tokens token);
 void				insert_at_end(t_lexer **head, char *content,
 						e_tokens token);
 void				parsing(char *argv, t_lexer *lexer);
+<<<<<<< HEAD
 int	ft_strcmp(char *s1, char *s2);
 void ft_free_nodes(t_lexer *lexer);
 void parser(t_lexer *lexer ,t_command **command);
+=======
+void				ft_free_nodes(t_lexer *lexer);
+int					ft_strcmp(const char *s1, const char *s2);
+
+// exec builtin
+int		echo_builtin(char **args);
+int		pwd_builtin(t_env *env);
+int		cd_builtin(t_env *env, char **args);
+int		exit_builtin(char **args);
+int		env_builtin(t_env *env);
+int		export_builtin(t_env **env, char **args);
+void	print_env_export(t_env *env);
+void	unset_env(t_env **env, const char *key);
+
+//env_handel
+t_env	*env_node_new(const char *key, const char *value);
+void    env_add_back(t_env **lst, t_env *new);
+t_env	*init_env(char **envp);
+char	*get_env_value(t_env *env, const char *key);
+void	set_env_value(t_env **env, const char *key, const char *value);
+void	unset_env(t_env **env, const char *key);
+void    print_env(t_env *env);
+
+// memory_management
+void	free_split(char **s);
+>>>>>>> yassir
 
 #endif

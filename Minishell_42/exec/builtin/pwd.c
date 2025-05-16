@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/02 13:24:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/10 21:48:54 by ykhoussi         ###   ########.fr       */
+/*   Created: 2025/04/24 21:45:59 by ykhoussi          #+#    #+#             */
+/*   Updated: 2025/05/09 21:30:05 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../nrc/minishell.h"
 
-char	*ft_strdup(const char *s)
+int pwd_builtin(t_env *env)
 {
-	int		i;
-	char	*p;
-
-	if (!s)
-		return (NULL);
-	p = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
-	if (!p)
-		return (NULL);
-	i = 0;
-	while (s[i])
+    char	*cwd;
+	
+	cwd = getcwd(NULL, 0);
+	if(cwd)
 	{
-		p[i] = s[i];
-		i++;
+		printf("%s\n", cwd);
+		free(cwd);
+		return (0);
 	}
-	p[i] = '\0';
-	return (p);
+	else
+	{
+		cwd = get_env_value(env, "PWD");
+		if (cwd)
+			printf("%s\n", cwd);
+		else
+			fprintf(stderr, "pwd: error retrieving current directory\n");
+		return (0);
+	}
 }

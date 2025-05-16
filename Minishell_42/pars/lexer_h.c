@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_h.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:12:33 by wel-mjiy          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/14 16:10:07 by wel-mjiy         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/10 21:29:12 by ykhoussi         ###   ########.fr       */
+>>>>>>> yassir
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../nrc/minishell.h"
-
 
 t_lexer *creat_node(char *content  , e_tokens token)
 {

@@ -1,8 +1,15 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
+<<<<<<< HEAD
 SRCS = Minishell_42/pars/parsing.c Minishell_42/src/main.c  Minishell_42/pars/lexer_h.c  Minishell_42/pars/parser.c
+=======
+SRCS = Minishell_42/pars/parsing.c Minishell_42/src/main.c  \
+Minishell_42/pars/lexer_h.c  Minishell_42/exec/builtin/echo.c  Minishell_42/exec/free/free.c \
+Minishell_42/exec/builtin/cd.c Minishell_42/exec/builtin/pwd.c Minishell_42/exec/env/env.c \
+Minishell_42/exec/builtin/export.c Minishell_42/exec/builtin/unset.c \
+>>>>>>> yassir
 
 OBJS = $(SRCS:.c=.o)
 LIB = ./ft_libft/libft.a

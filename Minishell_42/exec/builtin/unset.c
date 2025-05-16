@@ -1,33 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/02 13:24:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/10 21:48:54 by ykhoussi         ###   ########.fr       */
+/*   Created: 2025/05/13 18:10:14 by ykhoussi          #+#    #+#             */
+/*   Updated: 2025/05/13 21:54:29 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../nrc/minishell.h"
 
-char	*ft_strdup(const char *s)
+void	unset_env(t_env **env, const char *key)
 {
-	int		i;
-	char	*p;
+	t_env	*cur;
+	t_env	*prev;
 
-	if (!s)
-		return (NULL);
-	p = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
-	if (!p)
-		return (NULL);
-	i = 0;
-	while (s[i])
+	if (!*env)
+		return;
+	cur = *env;
+	prev = NULL;
+	while (cur)
 	{
-		p[i] = s[i];
-		i++;
+		if (ft_strcmp(cur->key, key) == 0)
+		{
+			if (prev == NULL)
+				*env = cur->next;
+			else
+				prev->next = cur->next;
+			free(cur->key);
+			free(cur->value);
+			free(cur);
+			return;
+		}
+		prev = cur;
+		cur = cur->next;
 	}
-	p[i] = '\0';
-	return (p);
 }
