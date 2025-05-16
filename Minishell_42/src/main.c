@@ -6,7 +6,7 @@
 /*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/16 17:24:18 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:48:41 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void free_env(t_env *env)
         free(temp);        // Free the node itself
     }
 }
+
 
 int main(int argc, char *argv[], char **envp)
 {
