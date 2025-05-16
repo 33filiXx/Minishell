@@ -6,7 +6,7 @@
 /*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:09:58 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/15 20:08:49 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:52:56 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	parser(t_lexer *lexer, t_command **command_list)
 	i = 0;
 	check_pipe = 0;
 	int check_out = 0;
+	int check_file = 0;
 	while (lexer)
 	{
 		command = new_command_node();
@@ -132,7 +133,18 @@ void	parser(t_lexer *lexer, t_command **command_list)
                 lexer = lexer->next;
 			else if (!lexer->next)
 				return;
-		}	
+		}
+		while (lexer && lexer->token == WORD)
+		{
+			if (check_file == 0)
+			{
+				lexer = lexer->next;
+				check_file = 1; 
+			}
+			command->argv[i] = ft_strdup(lexer->content);
+			i++;
+			lexer = lexer->next;
+		}
 		if (lexer && lexer->token == PIPE)
 		{
 			if (check_pipe == 0)
