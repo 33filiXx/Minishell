@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:26:08 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/16 17:31:35 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/16 20:12:58 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,10 @@ void    print_env(t_env *env);
 
 // memory_management
 void	free_split(char **s);
+void	free_redirections(t_redirection *redirs);
+void	free_command(t_command *command);
+void free_commend(t_command *cmd);
 
+//exc_start
+void	init_exc(t_command *cmd, t_env *env);
 #endif

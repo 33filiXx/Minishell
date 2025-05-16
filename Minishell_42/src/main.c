@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/16 17:48:41 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/16 20:24:12 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,16 @@ void free_env(t_env *env)
         free(temp);        // Free the node itself
     }
 }
-
+void print_nodee (t_lexer *head)
+{
+    if(!head)
+        return;
+    while (head)
+    {
+        printf("%s : ->>>>>>>>>>>>> %u :\n" ,  head->content ,head->token);
+        head = head->next;
+    }
+}
 
 int main(int argc, char *argv[], char **envp)
 {
@@ -85,9 +94,9 @@ int main(int argc, char *argv[], char **envp)
     char *input;
     char **args;
     t_lexer *lexer;
-    t_command *command = NULL;
+    //t_command *command = NULL;
     lexer = (t_lexer *)malloc(sizeof(t_lexer));
-    command = (t_command *)malloc(sizeof(t_command));
+    //command = (t_command *)malloc(sizeof(t_command));
     // Initialize environment
     env = init_env(envp);
     if (argc > 0)
@@ -98,8 +107,9 @@ int main(int argc, char *argv[], char **envp)
     {
         input = readline("minishell$ ");
         parsing(input , lexer);
-        parser(lexer->next , &command);
-        print_node(command->next);
+    //    parser(lexer, &command);
+        //print_node(command);
+        print_nodee(lexer);
         if (input == NULL)
             break; // Handle EOF or empty input
         if (*input) // Only add non-empty input
@@ -110,39 +120,13 @@ int main(int argc, char *argv[], char **envp)
             break;
         }
         args = ft_split(input, ' ');
-
-        if (args[0] && ft_strcmp(args[0], "cd") == 0)
+        init_exc(command, env);
+        if (command)
         {
-            if (cd_builtin(env, args) != 0)
-                fprintf(stderr, "cd: Error changing directory\n");
+            printf("hona\n");
+            free_commend(command);
+            command = NULL;
         }
-        else if (args[0] && ft_strcmp(args[0], "pwd") == 0)
-        {
-            if (pwd_builtin(env) != 0)
-                fprintf(stderr, "pwd: Error retrieving current directory\n");
-        }
-        else if (args[0] && ft_strcmp(args[0], "echo") == 0)
-        {
-            echo_builtin(args);
-        }
-        else if (args[0] && ft_strcmp(args[0], "env") == 0)
-        {
-            print_env(env);
-        }
-        else if (args[0] && ft_strcmp(args[0], "export") == 0)
-        {
-            export_builtin(&env, args);
-        }
-        else if (args[0] && ft_strcmp(args[0], "unset") == 0)
-        {
-            if (args[1])
-                unset_env(&env, args[1]);
-        }
-        else if (args[0])
-        {
-            printf("Unknown command: %s\n", args[0]);
-        }
-
         free(input);
         free_split(args);
     }

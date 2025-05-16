@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_h.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:12:33 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/16 17:12:14 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/16 20:14:31 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ t_lexer *creat_node(char *content  , e_tokens token)
     new_node = (t_lexer *)malloc(sizeof(t_lexer));
     if(!new_node)
     {
-        free(new_node);
-        return NULL;
+        // free(new_node);  feker fiha w hyedha
+        return NULL; 
     }
 	new_node->token = token;	
-    new_node->content = content;
+    new_node->content = ft_strdup(content);
     new_node->next = NULL;
     return (new_node);
 }
@@ -52,9 +52,9 @@ void ft_free_nodes(t_lexer *lexer)
 
 	while (lexer != NULL)
 	{
-		tmp = lexer;
-		lexer = lexer->next;
-		free(tmp);
+		tmp = lexer->next;
+		free(lexer);
+		lexer = tmp;
 	}
 	//lexer = NULL;
 }

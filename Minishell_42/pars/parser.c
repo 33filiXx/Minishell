@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:09:58 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/16 16:52:56 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/16 20:14:09 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,9 @@ void	parser(t_lexer *lexer, t_command **command_list)
 	while (lexer)
 	{
 		command = new_command_node();
-		add_command_back(command_list, command);
 		command->argv = malloc(sizeof(char *) * 100);
         if (!command->argv)
             return;
-        i = 0;
 		if (found_pipe(lexer) == 0 && check_out == 0)
 		{
 			command->pipe_in = 0;
@@ -98,6 +96,7 @@ void	parser(t_lexer *lexer, t_command **command_list)
 		else
 			check_out = 1;
 		
+        i = 0;
 		while (lexer && lexer->token == WORD)
 		{
 			command->argv[i] = ft_strdup(lexer->content);
@@ -108,7 +107,7 @@ void	parser(t_lexer *lexer, t_command **command_list)
 		while (lexer && (lexer->token == HERDOC || lexer->token == TRUNC
 			|| lexer->token == INPUT || lexer->token == APPEND))
 		{
-            if (!lexer || !lexer->next)
+            if (!lexer && !lexer->next)  // a zbi
             {
 		        break;
             }
@@ -117,7 +116,7 @@ void	parser(t_lexer *lexer, t_command **command_list)
             {
                 return;
             }
-			redir->filename = ft_strdup(lexer->next->content);
+			redir->filename = ft_strdup(lexer->next->content); // y9der ykoon bzaaf dyal redirections
 			redir->next = NULL;
 			if (lexer->token == TRUNC)
 				redir->type = REDIR_OUT;
@@ -160,6 +159,6 @@ void	parser(t_lexer *lexer, t_command **command_list)
 			}
 		    lexer = lexer->next;
 		}
-	
+		add_command_back(command_list, command);
 	}
 }
