@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:12:47 by wel-mjiy          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/15 17:32:18 by wel-mjiy         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/10 21:31:12 by ykhoussi         ###   ########.fr       */
->>>>>>> yassir
+/*   Updated: 2025/05/16 17:23:24 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +23,6 @@ int	ft_strcmp(const char *s1, const char *s2)
 	}
 	return (s1[i] - s2[i]);
 }
-
 void	ft_free(char **ptr)
 {
 	int	i;
@@ -237,15 +232,10 @@ void check_pipe(t_lexer *lexer)
 
 void check_ifonly_op(t_lexer *lexer)
 {
-<<<<<<< HEAD
 	if (!lexer)
 	{
 		return;
 	}
-=======
-	if (lexer == NULL)
-		return;
->>>>>>> yassir
 	t_lexer *tmp = lexer->next;
 	char *str = lexer->content;
 	if(strcmp(lexer->content , "<<") == 0 && tmp == NULL)
@@ -263,7 +253,6 @@ void check_ifonly_op(t_lexer *lexer)
 	else if((strcmp(lexer->content , "|") == 0 || strcmp(lexer->content , "|") != 0) && tmp == NULL)
 	{
 		if (pipe_counter(str) == 1)
-<<<<<<< HEAD
 		{
 			printf("bash: syntax error near unexpected token `|'\n");
 			ft_free_nodes(lexer);
@@ -275,30 +264,14 @@ void check_ifonly_op(t_lexer *lexer)
 			ft_free_nodes(lexer);
 			exit(1);
 		}
-=======
-			printf("bash: syntax error near unexpected token `|'\n");
-		else if (pipe_counter(str) > 1)
-			printf("bash: syntax error near unexpected token `||'\n");
-		ft_free_nodes(lexer);
-		exit(1);
->>>>>>> yassir
 	}
 }
 void	parsing(char *argv, t_lexer *lexer)
 {
 	
-<<<<<<< HEAD
 	store_into_nodes(argv, lexer);	
 	check_ifonly_op(lexer->next);
 	//check_herdoc(lexer->next);
 	//check_append(lexer->next);
 	//check_pipe(lexer->next);
 }
-=======
-	store_into_nodes(argv, lexer);
-	check_ifonly_op(lexer->next);
-	check_herdoc(lexer->next);
-	check_append(lexer->next);
-	check_pipe(lexer->next);
-}
->>>>>>> yassir

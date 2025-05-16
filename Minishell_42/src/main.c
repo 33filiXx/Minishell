@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/13 18:18:17 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:24:18 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../nrc/minishell.h"
 
-<<<<<<< HEAD
 void print_node(t_command *head)
 {
     while (head)
@@ -64,10 +63,7 @@ void print_node(t_command *head)
 }
 
 
-void print_nodee (t_lexer *head)
-=======
 void free_env(t_env *env)
->>>>>>> yassir
 {
     t_env *temp;
 
@@ -81,52 +77,28 @@ void free_env(t_env *env)
     }
 }
 
-<<<<<<< HEAD
-int main(int argc , char *argv[])
-=======
 int main(int argc, char *argv[], char **envp)
->>>>>>> yassir
 {
-    (void)argc;
     (void)argv;
-<<<<<<< HEAD
-    t_lexer *lexer;
-    t_command *command = NULL;
-    char *input;
-    lexer = (t_lexer *)malloc(sizeof(t_lexer));
-    command = (t_command *)malloc(sizeof(t_command));
-    if (argc > 0)
-    {
-        while (1)
-        {
-            input = readline("minishell$ ");
-            parsing(input , lexer);
-            parser(lexer->next , &command);
-            if (ft_strcmp(input, "exit") == 0)
-                break;
-            // if (*input)
-            //     add_history(input);
-            print_node(command->next);
-            //print_nodee(lexer->next);
-            
-            //ft_free_nodes(lexer);
-            //printf("%s\n" , input);
-        }
-        //printf("%s", input);
-    }
-
-}  
-=======
     t_env *env;
     char *input;
     char **args;
-
+    t_lexer *lexer;
+    t_command *command = NULL;
+    lexer = (t_lexer *)malloc(sizeof(t_lexer));
+    command = (t_command *)malloc(sizeof(t_command));
     // Initialize environment
     env = init_env(envp);
-
+    if (argc > 0)
+    {
+        
+   
     while (1)
     {
         input = readline("minishell$ ");
+        parsing(input , lexer);
+        parser(lexer->next , &command);
+        print_node(command->next);
         if (input == NULL)
             break; // Handle EOF or empty input
         if (*input) // Only add non-empty input
@@ -175,6 +147,6 @@ int main(int argc, char *argv[], char **envp)
     }
     write_history(".minishell_history");
     free_env(env);
+    }
     return 0;
 }
->>>>>>> yassir
