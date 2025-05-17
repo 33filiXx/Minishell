@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:47:19 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/16 18:53:18 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/17 18:05:44 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,21 @@ void free_redirections(t_redirection *redirs)
 
 void free_commend(t_command *cmd)
 {
-	t_command	*tmp;
-	
-	while (cmd != NULL && cmd->next)
-	{
-		tmp = cmd->next;
-		free(cmd);
-		cmd = tmp;
-	}
-	//lexer = NULL;
+    t_command *tmp;
+
+    while (cmd)
+    {
+        tmp = cmd->next;
+        if (cmd->argv)
+        {
+            for (int i = 0; cmd->argv[i]; i++)
+                free(cmd->argv[i]);
+            free(cmd->argv);
+        }
+        if (cmd->redirs)
+            free_redirections(cmd->redirs);
+        free(cmd);
+        cmd = tmp;
+    }
 }
 

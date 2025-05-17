@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 20:27:30 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/16 17:19:06 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/17 18:21:54 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ int	is_valid_identifier(char *s)
 	int	i;
 
 	if (!s || (!ft_isalpha(s[0]) && s[0] != '_'))
-		return (1);
+		return (0);
 	i = 1;
 	while (s[i])
 	{
 		if (!ft_isalnum(s[i]) && s[i] != '_')
-			return (1);
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
 void	print_env_export(t_env *env)
@@ -79,7 +79,7 @@ void	plus_sign(t_env **env, char *arg, char **key, char **value)
 	equal = strchr(arg, '=');
 	if (equal)
 	{
-		*key = ft_substr(arg, 0, equal - arg);
+		*key = ft_substr(arg, 0, equal - arg - 1);
 		*value = ft_strdup(equal + 1);
 		
 		exist_value = get_env_value(*env, *key);
@@ -110,7 +110,7 @@ int	export_builtin(t_env **env, char **args)
 		else
 		{
 			equal_sign(args[i], &key, &value);
-			if (is_valid_identifier(key))
+			if (!is_valid_identifier(key))
 				fprintf (stderr, "export: `%s`: not a valid identifier\n", key);
 			else
 				set_env_value(env, key, value);

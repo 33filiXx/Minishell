@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:26:08 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/16 20:12:58 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/17 18:00:12 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_env
 t_lexer				*creat_node(char *content, e_tokens token);
 void				insert_at_end(t_lexer **head, char *content,
 						e_tokens token);
-void				parsing(char *argv, t_lexer *lexer);
+void				parsing(char *argv, t_lexer **lexer);
 void				ft_free_nodes(t_lexer *lexer);
 int					ft_strcmp(const char *s1, const char *s2);
 void				parser(t_lexer *lexer, t_command **command_list);

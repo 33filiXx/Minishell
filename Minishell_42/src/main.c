@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/16 20:24:12 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/17 18:14:21 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,10 @@ int main(int argc, char *argv[], char **envp)
     t_env *env;
     char *input;
     char **args;
-    t_lexer *lexer;
-    //t_command *command = NULL;
-    lexer = (t_lexer *)malloc(sizeof(t_lexer));
-    //command = (t_command *)malloc(sizeof(t_command));
-    // Initialize environment
+    t_lexer *lexer = NULL;
+    t_command *command = NULL;
+    // lexer = (t_lexer *)malloc(sizeof(t_lexer));
+    // command = (t_command *)malloc(sizeof(t_command));
     env = init_env(envp);
     if (argc > 0)
     {
@@ -106,10 +105,10 @@ int main(int argc, char *argv[], char **envp)
     while (1)
     {
         input = readline("minishell$ ");
-        parsing(input , lexer);
-    //    parser(lexer, &command);
-        //print_node(command);
-        print_nodee(lexer);
+        parsing(input , &lexer);
+        parser(lexer, &command);
+        // print_node(command);
+        // print_nodee(lexer);
         if (input == NULL)
             break; // Handle EOF or empty input
         if (*input) // Only add non-empty input
@@ -123,7 +122,6 @@ int main(int argc, char *argv[], char **envp)
         init_exc(command, env);
         if (command)
         {
-            printf("hona\n");
             free_commend(command);
             command = NULL;
         }
