@@ -6,7 +6,7 @@
 /*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:12:47 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/16 17:23:24 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/17 16:03:17 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_free(char **ptr)
 	ptr = NULL;
 }
 
-void	store_into_nodes(char *str, t_lexer *lexer)
+void store_into_nodes(char *str, t_lexer **lexer)
 {
 	int		j;
 	char	**new_str;
@@ -46,22 +46,22 @@ void	store_into_nodes(char *str, t_lexer *lexer)
 	j = 0;
 	while (new_str[j] != NULL)
 	{
-			if (ft_strcmp(new_str[j], "|") == 0)
-				insert_at_end(&lexer, new_str[j], PIPE);
-			else if (ft_strcmp(new_str[j], ">") == 0)
-				insert_at_end(&lexer, new_str[j], TRUNC);
-			else if (ft_strcmp(new_str[j], "<") == 0)
-				insert_at_end(&lexer, new_str[j], INPUT);
-			else if (ft_strcmp(new_str[j], ">>") == 0)
-				insert_at_end(&lexer, new_str[j], APPEND);
-			else if (ft_strcmp(new_str[j], "<<") == 0)
-				insert_at_end(&lexer, new_str[j], HERDOC);
-			else
-				insert_at_end(&lexer, new_str[j], WORD);
-			//	free(*new_str);
-			j++;
+		if (ft_strcmp(new_str[j], "|") == 0)
+			insert_at_end(lexer, new_str[j], PIPE);
+		else if (ft_strcmp(new_str[j], ">") == 0)
+			insert_at_end(lexer, new_str[j], TRUNC);
+		else if (ft_strcmp(new_str[j], "<") == 0)
+			insert_at_end(lexer, new_str[j], INPUT);
+		else if (ft_strcmp(new_str[j], ">>") == 0)
+			insert_at_end(lexer, new_str[j], APPEND);
+		else if (ft_strcmp(new_str[j], "<<") == 0)
+			insert_at_end(lexer, new_str[j], HERDOC);
+		else
+			insert_at_end(lexer, new_str[j], WORD);
+		j++;
 	}
 }
+
 
 void check_helper_one(t_lexer *lexer)
 {
@@ -266,11 +266,11 @@ void check_ifonly_op(t_lexer *lexer)
 		}
 	}
 }
-void	parsing(char *argv, t_lexer *lexer)
+void	parsing(char *argv, t_lexer **lexer)
 {
-	
+	*lexer = NULL;
 	store_into_nodes(argv, lexer);	
-	check_ifonly_op(lexer->next);
+	//check_ifonly_op(lexer->next);
 	//check_herdoc(lexer->next);
 	//check_append(lexer->next);
 	//check_pipe(lexer->next);

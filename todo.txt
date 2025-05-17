@@ -1,3 +1,0 @@
-1 - lexer parser expand
-to do today > read data and insert it inside struct
---- do a perfect struct for my exeuter meat
