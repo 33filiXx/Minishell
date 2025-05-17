@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:26:08 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/17 18:00:12 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/17 20:44:41 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_redirection {
 typedef struct s_command {
     char **argv;                // e.g., {"grep", "hello", NULL}
     t_redirection *redirs;       // linked list of redirections
+	char	*path;
     int pipe_in;                 // 1 if input is from previous pipe tanchra7om lik hado ra shalin
     int pipe_out;                // 1 if output goes to next pipe
     struct s_command *next;      // next command in pipe chain
@@ -96,5 +97,6 @@ void	free_command(t_command *command);
 void free_commend(t_command *cmd);
 
 //exc_start
-void	init_exc(t_command *cmd, t_env *env);
+int	init_exc(t_command *cmd, t_env *env);
+
 #endif
