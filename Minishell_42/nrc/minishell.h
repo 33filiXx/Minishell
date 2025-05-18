@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:26:08 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/17 20:44:41 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:37:10 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void				insert_at_end(t_lexer **head, char *content,
 void				parsing(char *argv, t_lexer **lexer);
 void				ft_free_nodes(t_lexer *lexer);
 int					ft_strcmp(const char *s1, const char *s2);
-void				parser(t_lexer *lexer, t_command **command_list);
+void	parser(t_lexer *lexer, t_command **command_list);
 // exec builtin
 int		echo_builtin(char **args);
 int		pwd_builtin(t_env *env);
@@ -98,5 +98,8 @@ void free_commend(t_command *cmd);
 
 //exc_start
 int	init_exc(t_command *cmd, t_env *env);
+void	excute_commend(char *path, char **arg, char **env);
+void	extract_path(char *cmd, char **envp , t_command **command_list);
+char	**list_to_char_array(t_env *list);
 
 #endif

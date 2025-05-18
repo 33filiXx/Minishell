@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:09:58 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/16 20:14:09 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:51:14 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_command	*new_command_node(void)
 		return (NULL);
 	node->argv = NULL;   // still empty, ghadi t-allociha mn b3d
 	node->redirs = NULL; // redirection list, bda f NULL
+	node->path = NULL;
 	node->pipe_in = 1;   // default: no input pipe
 	node->pipe_out = 0;  // default: no output pipe
 	node->next = NULL;   // no next command yet
@@ -74,9 +75,11 @@ void	parser(t_lexer *lexer, t_command **command_list)
 {
 	int				i;
 	int				check_pipe;
-	t_command		*command;
-	t_redirection	*redir;
-
+	t_command		*command = NULL;
+	t_redirection	*redir = NULL;
+	//void(*env);
+	
+	*command_list = NULL;
 	i = 0;
 	check_pipe = 0;
 	int check_out = 0;
@@ -84,9 +87,11 @@ void	parser(t_lexer *lexer, t_command **command_list)
 	while (lexer)
 	{
 		command = new_command_node();
+		add_command_back(command_list, command);
 		command->argv = malloc(sizeof(char *) * 100);
         if (!command->argv)
             return;
+        i = 0;
 		if (found_pipe(lexer) == 0 && check_out == 0)
 		{
 			command->pipe_in = 0;
@@ -96,10 +101,10 @@ void	parser(t_lexer *lexer, t_command **command_list)
 		else
 			check_out = 1;
 		
-        i = 0;
 		while (lexer && lexer->token == WORD)
 		{
 			command->argv[i] = ft_strdup(lexer->content);
+			//if(command->argv[0])
 			i++;
 			lexer = lexer->next;
 		}
@@ -107,7 +112,7 @@ void	parser(t_lexer *lexer, t_command **command_list)
 		while (lexer && (lexer->token == HERDOC || lexer->token == TRUNC
 			|| lexer->token == INPUT || lexer->token == APPEND))
 		{
-            if (!lexer && !lexer->next)  // a zbi
+            if (!lexer || !lexer->next)
             {
 		        break;
             }
@@ -116,7 +121,7 @@ void	parser(t_lexer *lexer, t_command **command_list)
             {
                 return;
             }
-			redir->filename = ft_strdup(lexer->next->content); // y9der ykoon bzaaf dyal redirections
+			redir->filename = ft_strdup(lexer->next->content);
 			redir->next = NULL;
 			if (lexer->token == TRUNC)
 				redir->type = REDIR_OUT;
@@ -159,6 +164,6 @@ void	parser(t_lexer *lexer, t_command **command_list)
 			}
 		    lexer = lexer->next;
 		}
-		add_command_back(command_list, command);
+	
 	}
 }

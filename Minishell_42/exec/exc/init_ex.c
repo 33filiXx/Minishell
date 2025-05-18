@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:37:35 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/17 20:39:20 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/18 15:49:05 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,11 @@ int	init_exc(t_command *cmd, t_env *env)
 	else if (ft_strcmp(cmd->argv[0], "env") == 0)
 		    return (print_env(env), 0);
     else
-		{execve(cmd->path, cmd->argv, list_to_char_array(env));
-		}
-			return 0;
-	
+		excute_commend(cmd->path, cmd->argv, list_to_char_array(env));
+	return 0;	
+}
+
+void	excute_commend(char *path, char **arg, char **env)
+{
+	execve(path, arg, env);
 }

@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:12:33 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/16 20:14:31 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:20:20 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@ t_lexer *creat_node(char *content  , e_tokens token)
     t_lexer *new_node ;
 
     new_node = (t_lexer *)malloc(sizeof(t_lexer));
-    if(!new_node)
-    {
-        // free(new_node);  feker fiha w hyedha
-        return NULL; 
-    }
+    if (!new_node)
+	{
+    	return NULL;
+	}
 	new_node->token = token;	
     new_node->content = ft_strdup(content);
     new_node->next = NULL;
