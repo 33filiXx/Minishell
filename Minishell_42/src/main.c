@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/18 16:42:03 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/18 20:31:31 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,75 +96,75 @@ int *exit_stat(void)
 }
 
 // Function to create a mock command
-// t_command *create_mock_command()
-// {
-//     t_command *cmd = malloc(sizeof(t_command));
-//     cmd->argv = malloc(sizeof(char *) * 2);
-//     cmd->argv[0] = strdup("ls");
-//     cmd->argv[1] = NULL;
-//     cmd->redirs = NULL;
-//     cmd->path = strdup("/bin/ls");
-//     cmd->pipe_in = 0;
-//     cmd->pipe_out = 0;
-//     cmd->next = NULL;
+t_command *create_mock_command()
+{
+    t_command *cmd = malloc(sizeof(t_command));
+    cmd->argv = malloc(sizeof(char *) * 2);
+    cmd->argv[0] = strdup("ls");
+    cmd->argv[1] = NULL;
+    cmd->redirs = NULL;
+    cmd->path = strdup("");
+    cmd->pipe_in = 0;
+    cmd->pipe_out = 0;
+    cmd->next = NULL;
 
-//     return cmd;
-// }
+    return cmd;
+}
 
 int main(int argc, char *argv[], char **envp)
 {
     (void)argv;
     (void)argc;
     t_env *env;
-    char *input;
-    t_lexer *lexer = NULL;
+    // char *input;
+    // t_lexer *lexer = NULL;
     t_command *command = NULL;
     env = init_env(envp);
-    int i = 0;
-    if (argc > 0)
-    {
+    // int i = 0;
+    // if (argc > 0)
+    // {
         
-    while (1)
-    {
-        input = readline("minishell$ ");
-        parsing(input , &lexer);
-        parser(lexer, &command);
-        while (command)
-        {
-            while (command->argv[i])
-            {
-            if (command->argv[0])
-			    extract_path(command->argv[0], envp, &command);
-                i++;
-            }
-            command = command->next;
-        }
+    // while (1)
+    // {
+    //     input = readline("minishell$ ");
+    //     parsing(input , &lexer);
+    //     parser(lexer, &command);
+    //     while (command)
+    //     {
+    //         while (command->argv[i])
+    //         {
+    //         if (command->argv[0])
+	// 		    extract_path(command->argv[0], envp, &command);
+    //             i++;
+    //         }
+    //         command = command->next;
+    //     }
         
     
-        print_node(command);
-        // print_nodee(lexer);
-        if (input == NULL)
-            break; // Handle EOF or empty input
-        if (*input) // Only add non-empty input
-            add_history(input);
-        if (ft_strcmp(input, "exit") == 0)
-        {
-            free(input);
-            break;
-        }
-        init_exc(command, env);
-        if (command)
-        {
-            free_commend(command);
-            command = NULL;
-        }
-        free(input);
-    }
-    write_history(".minishell_history");
-    free_env(env);
-    }
-    // command = create_mock_command();
-    // init_exc(command, env);
+    //     print_node(command);
+    //     // print_nodee(lexer);
+    //     if (input == NULL)
+    //         break; // Handle EOF or empty input
+    //     if (*input) // Only add non-empty input
+    //         add_history(input);
+    //     if (ft_strcmp(input, "exit") == 0)
+    //     {
+    //         free(input);
+    //         break;
+    //     }
+    //     init_exc(command, env);
+    //     if (command)
+    //     {
+    //         free_commend(command);
+    //         command = NULL;
+    //     }
+    //     free(input);
+    // }
+    // write_history(".minishell_history");
+    // free_env(env);
+    // }
+    command = create_mock_command();
+    init_exc(command, env);
     return 0;
 }
  

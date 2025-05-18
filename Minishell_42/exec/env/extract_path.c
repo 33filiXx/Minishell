@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:02:00 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/18 16:49:55 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/18 20:25:41 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	extract_path(char *cmd, char **envp , t_command **command_list)
 		if (access(fullpath, X_OK) == 0)
 		{
 			free_split(path);
-			printf("%s\n", fullpath);
 			(*command_list)->path = ft_strdup(fullpath);
 		}
 		free(fullpath);
