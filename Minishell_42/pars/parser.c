@@ -6,7 +6,7 @@
 /*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:09:58 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/16 16:52:56 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/18 15:47:06 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,10 @@ void	parser(t_lexer *lexer, t_command **command_list)
 {
 	int				i;
 	int				check_pipe;
-	t_command		*command;
-	t_redirection	*redir;
-
+	t_command		*command = NULL;
+	t_redirection	*redir = NULL;
+	
+	*command_list = NULL;
 	i = 0;
 	check_pipe = 0;
 	int check_out = 0;
