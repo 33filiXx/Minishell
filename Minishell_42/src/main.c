@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/18 16:42:03 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:57:58 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,9 +133,9 @@ int main(int argc, char *argv[], char **envp)
         {
             while (command->argv[i])
             {
-            if (command->argv[0])
-			    extract_path(command->argv[0], envp, &command);
-                i++;
+            if (i == 0)
+			    extract_path(command->argv[i], envp, &command);
+            i++;
             }
             command = command->next;
         }
