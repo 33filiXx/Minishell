@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/19 15:20:35 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:10:47 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,11 @@ t_command *create_mock_command()
     cmd->argv[0] = strdup("ls");
     cmd->argv[1] = NULL;
     cmd->redirs = malloc(sizeof(t_redirection));
-    cmd->redirs->type = 2;               // 2 means ">" (TRUNC)
+    cmd->redirs->type = 1;               // 2 means ">" (TRUNC)
     cmd->redirs->filename = strdup("output.txt");
     cmd->redirs->next = NULL;
     
-    cmd->path = strdup("/usr/bin/ls");
+    cmd->path = ft_strdup("/bin/ls");
     cmd->pipe_in = 0;
     cmd->pipe_out = 0;
     cmd->next = NULL;
@@ -168,7 +168,10 @@ int main(int argc, char *argv[], char **envp)
     // free_env(env);
     // }
     command = create_mock_command();
+    if (command && (command->pipe_in || command->pipe_out))
+        execute_pipeline(command, env);
+    else
     init_exc(command, env);
-    return 0;
+    return *exit_stat();
 }
  

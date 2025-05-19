@@ -1,0 +1,7 @@
+ft_libft
+Makefile
+minishell
+Minishell_42
+output.txt
+README.md
+todo.txt

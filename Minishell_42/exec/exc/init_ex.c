@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:37:35 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/19 15:50:30 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:08:11 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	init_exc(t_command *cmd, t_env *env)
 	else if (ft_strcmp(cmd->argv[0], "env") == 0)
 		    return (print_env(env), 0);
     else
-		excute_commend(cmd, cmd->path, cmd->argv, list_to_char_array(env));
+		excute_commend(cmd, list_to_char_array(env));
 	return 0;	
 }
 
@@ -110,31 +110,4 @@ void	redirections(t_command *cmd)
 		close(fd);
 		redir = redir->next;
 	}
-}
-
-void	excute_commend(t_command *cmd, char *path, char **arg, char **env)
-{
-	int	i;
-	pid_t pid1;
-	int	status;
-
-	pid1 = fork();
-	i = 0;
-	if (pid1 < 0)
-	{
-		perror("fork faild");
-		exit(1);
-	}
-	if (pid1 == 0)	
-	{	
-		if (cmd->redirs)
-			redirections(cmd);
-		if (execve(path, arg, env) == -1)
-		{
-			perror("execve failed");
-			exit(1);
-		}
-	}
-	else
-		waitpid(pid1, &status, 0);
 }
