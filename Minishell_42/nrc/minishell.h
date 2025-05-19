@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:26:08 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/18 20:27:45 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:18:31 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -98,7 +99,7 @@ void	free_commend(t_command *cmd);
 
 //exc_start
 int		init_exc(t_command *cmd, t_env *env);
-void	excute_commend(char *path, char **arg, char **env);
+void	excute_commend(t_command *cmd, char *path, char **arg, char **env);
 void	extract_path(char *cmd, char **envp , t_command **command_list);
 char	**list_to_char_array(t_env *list);
 

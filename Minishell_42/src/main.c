@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/18 20:31:31 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:20:35 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,12 @@ t_command *create_mock_command()
     cmd->argv = malloc(sizeof(char *) * 2);
     cmd->argv[0] = strdup("ls");
     cmd->argv[1] = NULL;
-    cmd->redirs = NULL;
-    cmd->path = strdup("");
+    cmd->redirs = malloc(sizeof(t_redirection));
+    cmd->redirs->type = 2;               // 2 means ">" (TRUNC)
+    cmd->redirs->filename = strdup("output.txt");
+    cmd->redirs->next = NULL;
+    
+    cmd->path = strdup("/usr/bin/ls");
     cmd->pipe_in = 0;
     cmd->pipe_out = 0;
     cmd->next = NULL;

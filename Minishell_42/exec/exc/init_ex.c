@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:37:35 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/18 20:44:12 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:50:30 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	ft_lssize(t_env *lst)
 	}
 	return (counter);
 }
+
 char	**list_to_char_array(t_env *list)
 {
 	int		size;
@@ -64,7 +65,10 @@ int	init_exc(t_command *cmd, t_env *env)
 	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
     {
         if (cmd->argv[1])
-            return (unset_env(&env, cmd->argv[1]), 0);
+        {
+			unset_env(&env, cmd->argv[1]);
+			return 0;
+		}
         else
             fprintf(stderr, "unset: not enough arguments\n");
     }
@@ -75,19 +79,62 @@ int	init_exc(t_command *cmd, t_env *env)
 	return 0;	
 }
 
+void	redirections(t_command *cmd)
+{
+	t_redirection *redir;
+	int	fd;
+
+	redir = cmd->redirs;
+	while (redir)
+	{
+		if (redir->type == 1) // Input
+		{	
+			fd = open(redir->filename, O_RDONLY);
+			dup2(fd, STDIN_FILENO);
+		}
+		else if (redir->type == 2) //Output
+        {	
+			fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			dup2(fd, STDOUT_FILENO);
+		}
+		else if (redir->type == 3) // Append
+        {	
+			fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			dup2(fd, STDOUT_FILENO);
+		}
+		if (fd < 0)
+		{
+			perror("open failed");
+			exit(1);
+		}
+		close(fd);
+		redir = redir->next;
+	}
+}
+
 void	excute_commend(t_command *cmd, char *path, char **arg, char **env)
 {
 	int	i;
+	pid_t pid1;
+	int	status;
 
+	pid1 = fork();
 	i = 0;
-	while(arg[i])
+	if (pid1 < 0)
 	{
-		
+		perror("fork faild");
+		exit(1);
+	}
+	if (pid1 == 0)	
+	{	
+		if (cmd->redirs)
+			redirections(cmd);
 		if (execve(path, arg, env) == -1)
 		{
 			perror("execve failed");
 			exit(1);
 		}
-		i++;
 	}
+	else
+		waitpid(pid1, &status, 0);
 }

@@ -6,11 +6,26 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:02:00 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/18 20:25:41 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:33:50 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../nrc/minishell.h"
+
+// static	char	*get_command_path(char **cmd, char **envp, t_command **command_list)
+// {
+// 	char	*expath;
+
+// 	if (cmd && ft_strchr(cmd[0], '/'))
+// 	{
+// 		expath = ft_strdup(cmd[0]);
+// 		if (!expath)
+// 			return (NULL);
+// 	}
+// 	else
+// 		expath = extract_path(cmd[0], envp, command_list);
+// 	return (expath);
+// }
 
 static	char	*join_path(char *path, char *cmd)
 {
