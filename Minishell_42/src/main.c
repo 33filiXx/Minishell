@@ -6,7 +6,7 @@
 /*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/19 18:40:42 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/20 05:06:46 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,22 +143,22 @@ int main(int argc, char *argv[], char **envp)
     
         print_node(command);
         // print_nodee(lexer);
-        if (input == NULL)
-            break; // Handle EOF or empty input
-        if (*input) // Only add non-empty input
-            add_history(input);
-        if (ft_strcmp(input, "exit") == 0)
-        {
-            free(input);
-            break;
-        }
-        init_exc(command, env);
-        if (command)
-        {
-            free_commend(command);
-            command = NULL;
-        }
-        free(input);
+        // if (input == NULL)
+        //     break; // Handle EOF or empty input
+        // if (*input) // Only add non-empty input
+        //     add_history(input);
+        // if (ft_strcmp(input, "exit") == 0)
+        // {
+        //     free(input);
+        //     break;
+        // }
+        // init_exc(command, env);
+        // if (command)
+        // {
+        //     free_commend(command);
+        //     command = NULL;
+        // }
+        // free(input);
     }
     write_history(".minishell_history");
     free_env(env);
