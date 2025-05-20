@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/19 18:57:02 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:55:57 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,24 +96,40 @@ int *exit_stat(void)
 }
 
 // Function to create a mock command
+// Example: ls | grep minishell | wc -l
+
 t_command *create_mock_command()
 {
-    t_command *cmd = malloc(sizeof(t_command));
-    cmd->argv = malloc(sizeof(char *) * 2);
-    cmd->argv[0] = strdup("ls");
-    cmd->argv[1] = NULL;
-    cmd->redirs = malloc(sizeof(t_redirection));
-    cmd->redirs->type = 1;               // 2 means ">" (TRUNC)
-    cmd->redirs->filename = strdup("output.txt");
-    cmd->redirs->next = NULL;
-    
-    cmd->path = ft_strdup("/bin/ls");
-    cmd->pipe_in = 1;
-    cmd->pipe_out = 0;
-    cmd->next = NULL;
+    t_command *cmd1 = malloc(sizeof(t_command));
+    t_command *cmd2 = malloc(sizeof(t_command));
+    t_command *cmd3 = malloc(sizeof(t_command));
 
-    return cmd;
+    cmd1->argv = malloc(sizeof(char *) * 2);
+    cmd1->argv[0] = strdup("ls");
+    cmd1->argv[1] = NULL;
+    cmd1->path = strdup("/bin/ls");
+    cmd1->redirs = NULL;
+    cmd1->next = cmd2;
+
+    cmd2->argv = malloc(sizeof(char *) * 3);
+    cmd2->argv[0] = strdup("grep");
+    cmd2->argv[1] = strdup("minishell");
+    cmd2->argv[2] = NULL;
+    cmd2->path = strdup("/bin/grep");
+    cmd2->redirs = NULL;
+    cmd2->next = cmd3;
+
+    cmd3->argv = malloc(sizeof(char *) * 2);
+    cmd3->argv[0] = strdup("wc");
+    cmd3->argv[1] = strdup("-l");
+    cmd3->argv[2] = NULL;
+    cmd3->path = strdup("/usr/bin/wc");
+    cmd3->redirs = NULL;
+    cmd3->next = NULL;
+
+    return cmd1;
 }
+
 
 int main(int argc, char *argv[], char **envp)
 {
@@ -130,19 +146,19 @@ int main(int argc, char *argv[], char **envp)
         
     // while (1)
     // {
-    //     input = readline("minishell$ ");
-    //     parsing(input , &lexer);
-    //     parser(lexer, &command);
-    //     while (command)
-    //     {
-    //         while (command->argv[i])
-    //         {
-    //         if (command->argv[0])
-	// 		    extract_path(command->argv[0], envp, &command);
-    //             i++;
-    //         }
-    //         command = command->next;
-    //     }
+            // input = readline("minishell$ ");
+            // parsing(input , &lexer);
+            // parser(lexer, &command , envp);
+            // while (command)
+            // {
+            //     // while (command->argv[i])
+            //     // {
+            //     // if (i == 0)
+            //     //     extract_path(command->argv[i], envp, &command);
+            //     // i++;
+            //     // }
+            //     command = command->next;
+            // }
         
     
     //     print_node(command);

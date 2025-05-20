@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:37:35 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/19 18:08:11 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:48:48 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,31 @@ void	redirections(t_command *cmd)
 		if (redir->type == 1) // Input
 		{	
 			fd = open(redir->filename, O_RDONLY);
+			if (fd < 0)
+			{
+				perror(redir->filename);
+				exit(1);
+			}
 			dup2(fd, STDIN_FILENO);
 		}
 		else if (redir->type == 2) //Output
         {	
 			fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd < 0)
+			{
+				perror(redir->filename);
+				exit(1);
+			}
 			dup2(fd, STDOUT_FILENO);
 		}
 		else if (redir->type == 3) // Append
         {	
 			fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (fd < 0)
+			{
+				perror(redir->filename);
+				exit(1);
+			}
 			dup2(fd, STDOUT_FILENO);
 		}
 		if (fd < 0)
