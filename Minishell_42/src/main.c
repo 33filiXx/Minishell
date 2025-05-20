@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/20 17:55:57 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/20 21:04:19 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,94 +96,90 @@ int *exit_stat(void)
 }
 
 // Function to create a mock command
-// Example: ls | grep minishell | wc -l
+// t_command *create_mock_command()
+// {
+//     // First command: ls
+//     t_command *cmd1 = malloc(sizeof(t_command));
+//     cmd1->argv = malloc(sizeof(char *) * 2);
+//     cmd1->argv[0] = strdup("ls");
+//     cmd1->argv[1] = NULL;
+//     cmd1->redirs = NULL;
+//     cmd1->path = ft_strdup("/bin/ls");
+//     cmd1->pipe_in = 0;     // No pipe into first command
+//     cmd1->pipe_out = 1;    // Pipe output to next
+//     cmd1->next = NULL;
 
-t_command *create_mock_command()
-{
-    t_command *cmd1 = malloc(sizeof(t_command));
-    t_command *cmd2 = malloc(sizeof(t_command));
-    t_command *cmd3 = malloc(sizeof(t_command));
+//     // Second command: grep minishell
+//     t_command *cmd2 = malloc(sizeof(t_command));
+//     cmd2->argv = malloc(sizeof(char *) * 3);
+//     cmd2->argv[0] = strdup("grep");
+//     cmd2->argv[1] = strdup("minishell");
+//     cmd2->argv[2] = NULL;
+//     cmd2->redirs = NULL;
+//     cmd2->path = ft_strdup("/bin/grep");
+//     cmd2->pipe_in = 1;     // Receive input from previous command
+//     cmd2->pipe_out = 0;    // No pipe out
+//     cmd2->next = NULL;
 
-    cmd1->argv = malloc(sizeof(char *) * 2);
-    cmd1->argv[0] = strdup("ls");
-    cmd1->argv[1] = NULL;
-    cmd1->path = strdup("/bin/ls");
-    cmd1->redirs = NULL;
-    cmd1->next = cmd2;
+//     // Link commands
+//     cmd1->next = cmd2;
 
-    cmd2->argv = malloc(sizeof(char *) * 3);
-    cmd2->argv[0] = strdup("grep");
-    cmd2->argv[1] = strdup("minishell");
-    cmd2->argv[2] = NULL;
-    cmd2->path = strdup("/bin/grep");
-    cmd2->redirs = NULL;
-    cmd2->next = cmd3;
-
-    cmd3->argv = malloc(sizeof(char *) * 2);
-    cmd3->argv[0] = strdup("wc");
-    cmd3->argv[1] = strdup("-l");
-    cmd3->argv[2] = NULL;
-    cmd3->path = strdup("/usr/bin/wc");
-    cmd3->redirs = NULL;
-    cmd3->next = NULL;
-
-    return cmd1;
-}
-
+//     return cmd1;
+// }
 
 int main(int argc, char *argv[], char **envp)
 {
     (void)argv;
     (void)argc;
     t_env *env;
-    // char *input;
-    // t_lexer *lexer = NULL;
+    char *input;
+    t_lexer *lexer = NULL;
     t_command *command = NULL;
     env = init_env(envp);
-    // int i = 0;
-    // if (argc > 0)
-    // {
+    int i = 0;
+    if (argc > 0)
+    {
         
-    // while (1)
-    // {
-            // input = readline("minishell$ ");
-            // parsing(input , &lexer);
-            // parser(lexer, &command , envp);
-            // while (command)
-            // {
-            //     // while (command->argv[i])
-            //     // {
-            //     // if (i == 0)
-            //     //     extract_path(command->argv[i], envp, &command);
-            //     // i++;
-            //     // }
-            //     command = command->next;
-            // }
+    while (1)
+    {
+            input = readline("minishell$ ");
+            parsing(input , &lexer);
+            parser(lexer, &command , envp);
+            while (command)
+            {
+                // while (command->argv[i])
+                // {
+                // if (i == 0)
+                //     extract_path(command->argv[i], envp, &command);
+                // i++;
+                // }
+                command = command->next;
+            }
         
     
-    //     print_node(command);
-    //     // print_nodee(lexer);
-    //     if (input == NULL)
-    //         break; // Handle EOF or empty input
-    //     if (*input) // Only add non-empty input
-    //         add_history(input);
-    //     if (ft_strcmp(input, "exit") == 0)
-    //     {
-    //         free(input);
-    //         break;
-    //     }
-    //     init_exc(command, env);
-    //     if (command)
-    //     {
-    //         free_commend(command);
-    //         command = NULL;
-    //     }
-    //     free(input);
+        print_node(command);
+        // print_nodee(lexer);
+        if (input == NULL)
+            break; // Handle EOF or empty input
+        if (*input) // Only add non-empty input
+            add_history(input);
+        if (ft_strcmp(input, "exit") == 0)
+        {
+            free(input);
+            break;
+        }
+        init_exc(command, env);
+        if (command)
+        {
+            free_commend(command);
+            command = NULL;
+        }
+        free(input);
+    }
+    write_history(".minishell_history");
+    free_env(env);
     // }
-    // write_history(".minishell_history");
-    // free_env(env);
-    // }
-    command = create_mock_command();
+    // command = create_mock_command();
     if (command && (command->pipe_in || command->pipe_out))
         execute_pipeline(command, env);
     else
