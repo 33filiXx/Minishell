@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:09:58 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/18 16:51:14 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:39:50 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int found_pipe(t_lexer *lexer)
 	return check;
 }
 
-void	parser(t_lexer *lexer, t_command **command_list)
+void	parser(t_lexer *lexer, t_command **command_list ,char **envp)
 {
 	int				i;
 	int				check_pipe;
@@ -104,7 +104,8 @@ void	parser(t_lexer *lexer, t_command **command_list)
 		while (lexer && lexer->token == WORD)
 		{
 			command->argv[i] = ft_strdup(lexer->content);
-			//if(command->argv[0])
+			if (i == 0)
+				extract_path(command->argv[i], envp, &command);
 			i++;
 			lexer = lexer->next;
 		}

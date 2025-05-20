@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:26:08 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/18 16:37:10 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:39:42 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void				insert_at_end(t_lexer **head, char *content,
 void				parsing(char *argv, t_lexer **lexer);
 void				ft_free_nodes(t_lexer *lexer);
 int					ft_strcmp(const char *s1, const char *s2);
-void	parser(t_lexer *lexer, t_command **command_list);
+void	parser(t_lexer *lexer, t_command **command_list ,char **envp);
 // exec builtin
 int		echo_builtin(char **args);
 int		pwd_builtin(t_env *env);

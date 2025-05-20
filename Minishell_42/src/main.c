@@ -6,7 +6,7 @@
 /*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/18 16:57:58 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:40:42 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int main(int argc, char *argv[], char **envp)
     t_lexer *lexer = NULL;
     t_command *command = NULL;
     env = init_env(envp);
-    int i = 0;
+    //int i = 0;
     if (argc > 0)
     {
         
@@ -128,17 +128,17 @@ int main(int argc, char *argv[], char **envp)
     {
         input = readline("minishell$ ");
         parsing(input , &lexer);
-        parser(lexer, &command);
-        while (command)
-        {
-            while (command->argv[i])
-            {
-            if (i == 0)
-			    extract_path(command->argv[i], envp, &command);
-            i++;
-            }
-            command = command->next;
-        }
+        parser(lexer, &command , envp);
+        // while (command)
+        // {
+        //     // while (command->argv[i])
+        //     // {
+        //     // if (i == 0)
+		// 	//     extract_path(command->argv[i], envp, &command);
+        //     // i++;
+        //     // }
+        //     command = command->next;
+        // }
         
     
         print_node(command);
