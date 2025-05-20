@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:12:47 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/17 17:58:59 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/20 10:45:24 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,38 @@ void	ft_free(char **ptr)
 	free(ptr);
 	ptr = NULL;
 }
-
+int checkquotes(char *str)
+{
+	if (!str)
+		return 0;
+	int i = 0;
+	int single_cheker = 0;
+	int double_cheker = 0;
+	while(str[i])
+	{
+		if (str[i] == '"')
+			double_cheker += 1;
+		else if (str[i] == '\'')
+			single_cheker += 1;
+		i++;
+	}
+	
+	if (single_cheker % 2 != 0 && double_cheker % 2 == 0)
+		return 4;
+	else if (single_cheker % 2 == 0 && double_cheker % 2 != 0)
+		return 5;
+	else if (single_cheker % 2 != 0 && double_cheker % 2 != 0)
+		return 6;
+	else if (single_cheker > 0 && double_cheker == 0)
+		return 0;
+	else if (double_cheker > 0 && single_cheker == 0)
+		return 1;
+	else if (single_cheker > 0 && double_cheker > 0)
+		return 2;
+	else if ( single_cheker == 0 && double_cheker == 0)
+		return 3;
+	return 7;
+}
 void	store_into_nodes(char *str, t_lexer **lexer)
 {
 	int		j;
@@ -47,17 +78,32 @@ void	store_into_nodes(char *str, t_lexer **lexer)
 	while (new_str[j] != NULL)
 	{
 			if (ft_strcmp(new_str[j], "|") == 0)
-				insert_at_end(lexer, new_str[j], PIPE);
+				insert_at_end(lexer, new_str[j], PIPE ,3);
 			else if (ft_strcmp(new_str[j], ">") == 0)
-				insert_at_end(lexer, new_str[j], TRUNC);
+				insert_at_end(lexer, new_str[j], TRUNC,3);
 			else if (ft_strcmp(new_str[j], "<") == 0)
-				insert_at_end(lexer, new_str[j], INPUT);
+				insert_at_end(lexer, new_str[j], INPUT,3);
 			else if (ft_strcmp(new_str[j], ">>") == 0)
-				insert_at_end(lexer, new_str[j], APPEND);
+				insert_at_end(lexer, new_str[j], APPEND,3);
 			else if (ft_strcmp(new_str[j], "<<") == 0)
-				insert_at_end(lexer, new_str[j], HERDOC);
+				insert_at_end(lexer, new_str[j], HERDOC,3);
 			else
-				insert_at_end(lexer, new_str[j], WORD);
+			{
+				if(checkquotes(new_str[j]) == 0)
+					insert_at_end(lexer, new_str[j], WORD , 0);
+				else if (checkquotes(new_str[j]) == 1)
+					insert_at_end(lexer, new_str[j], WORD , 1);
+				else if (checkquotes(new_str[j]) == 2)
+					insert_at_end(lexer, new_str[j], WORD , 2);
+				else if (checkquotes(new_str[j]) == 3)
+					insert_at_end(lexer, new_str[j], WORD , 3);
+				else if (checkquotes(new_str[j]) == 4)
+					insert_at_end(lexer, new_str[j], WORD , 4);
+				else if (checkquotes(new_str[j]) == 5)
+					insert_at_end(lexer, new_str[j], WORD , 5);
+				else if (checkquotes(new_str[j]) == 6)
+					insert_at_end(lexer, new_str[j], WORD , 6);
+			}
 			//	free(*new_str);
 			j++;
 	}
@@ -266,7 +312,7 @@ void check_ifonly_op(t_lexer *lexer)
 		}
 	}
 }
-void	parsing(char *argv, t_lexer **lexer)
+void	lexer(char *argv, t_lexer **lexer)
 {
 	*lexer = NULL;
 	store_into_nodes(argv, lexer);	

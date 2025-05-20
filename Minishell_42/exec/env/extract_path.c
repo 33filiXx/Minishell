@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:02:00 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/20 16:06:58 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/20 21:08:22 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	extract_path(char *cmd, char **envp , t_command **command_list)
 	int		i;
 
 	i = 0;
+	if (!command_list || !(*command_list))
+		return;
 	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
 		i++;
 	if (envp[i] == NULL)
@@ -60,8 +62,12 @@ void	extract_path(char *cmd, char **envp , t_command **command_list)
 		fullpath = join_path(path[i], cmd);
 		if (access(fullpath, X_OK) == 0)
 		{
-			free_split(path);
 			(*command_list)->path = ft_strdup(fullpath);
+			free(fullpath);
+			free_split(path);
+			return;
+			//printf("%s\n", fullpath);
+			// if (*command_list)
 		}
 		free(fullpath);
 		i++;

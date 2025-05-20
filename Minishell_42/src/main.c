@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/20 21:04:19 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/20 21:15:27 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void print_nodee (t_lexer *head)
         return;
     while (head)
     {
-        printf("%s : ->>>>>>>>>>>>> %u :\n" ,  head->content ,head->token);
+        printf("%s : ->>>>>>>>>>>>> %u ->>>>>>>>>>>>>>>>>>>>>>> %u :\n" ,  head->content ,head->token , head->quotes);
         head = head->next;
     }
 }
@@ -133,32 +133,21 @@ int main(int argc, char *argv[], char **envp)
     (void)argc;
     t_env *env;
     char *input;
-    t_lexer *lexer = NULL;
+    t_lexer *lexer_list = NULL;
     t_command *command = NULL;
     env = init_env(envp);
-    int i = 0;
+    //int i = 0;
     if (argc > 0)
     {
         
     while (1)
     {
-            input = readline("minishell$ ");
-            parsing(input , &lexer);
-            parser(lexer, &command , envp);
-            while (command)
-            {
-                // while (command->argv[i])
-                // {
-                // if (i == 0)
-                //     extract_path(command->argv[i], envp, &command);
-                // i++;
-                // }
-                command = command->next;
-            }
-        
-    
-        print_node(command);
-        // print_nodee(lexer);
+        input = readline("minishell$ ");
+        lexer(input , &lexer_list);
+        parser(lexer_list, &command ,  list_to_char_array(env));
+        //expand(env , &command);
+        //print_node(command);
+        // print_nodee(lexer_list);
         if (input == NULL)
             break; // Handle EOF or empty input
         if (*input) // Only add non-empty input
@@ -168,7 +157,10 @@ int main(int argc, char *argv[], char **envp)
             free(input);
             break;
         }
-        init_exc(command, env);
+        if (command && (command->pipe_in || command->pipe_out))
+            execute_pipeline(command, env);
+        else
+            init_exc(command, env);
         if (command)
         {
             free_commend(command);
@@ -178,12 +170,8 @@ int main(int argc, char *argv[], char **envp)
     }
     write_history(".minishell_history");
     free_env(env);
-    // }
+    }
     // command = create_mock_command();
-    if (command && (command->pipe_in || command->pipe_out))
-        execute_pipeline(command, env);
-    else
-    init_exc(command, env);
     return *exit_stat();
 }
  

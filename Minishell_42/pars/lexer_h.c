@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_h.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:12:33 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/18 16:20:20 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/20 10:14:27 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../nrc/minishell.h"
 
-t_lexer *creat_node(char *content  , e_tokens token)
+t_lexer *creat_node(char *content  , e_tokens token , t_quotes quotes)
 {
     t_lexer *new_node ;
 
@@ -22,16 +22,17 @@ t_lexer *creat_node(char *content  , e_tokens token)
     	return NULL;
 	}
 	new_node->token = token;	
+	new_node->quotes = quotes;	
     new_node->content = ft_strdup(content);
     new_node->next = NULL;
     return (new_node);
 }
-void	insert_at_end(t_lexer **head, char *content ,e_tokens token)
+void	insert_at_end(t_lexer **head, char *content ,e_tokens token , t_quotes quotes)
 {
 	t_lexer	*new_node;
 	t_lexer	*temp;
 
-	new_node = creat_node(content , token);
+	new_node = creat_node(content , token , quotes);
 	if (*head == NULL)
 	{
 		*head = new_node;

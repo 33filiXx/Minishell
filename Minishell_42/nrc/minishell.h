@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:26:08 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/19 18:56:37 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/20 21:10:19 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,21 @@ typedef enum t_tokens
 	INPUT, //  <
 	WORD, // commend
 }					e_tokens;
+typedef enum s_quotes
+{
+	single_quotes,
+	double_quotes,
+	mixed_quotes,
+	non_quotes,
+	non_close_squotes,
+	non_close_dquotes,
+	non_close_mquotes,
+}					t_quotes;
 
 typedef struct s_lexer
 {
 	e_tokens		token;
+	t_quotes		quotes;
 	char			*content;
 	struct s_lexer	*next;
 }					t_lexer;
@@ -65,13 +76,15 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-t_lexer				*creat_node(char *content, e_tokens token);
+t_lexer				*creat_node(char *content, e_tokens token , t_quotes quotes);
 void				insert_at_end(t_lexer **head, char *content,
-						e_tokens token);
-void				parsing(char *argv, t_lexer **lexer);
+						e_tokens token , t_quotes quotes);
+void				lexer(char *argv, t_lexer **lexer_list);
 void				ft_free_nodes(t_lexer *lexer);
 int					ft_strcmp(const char *s1, const char *s2);
-void	parser(t_lexer *lexer, t_command **command_list);
+void				parser(t_lexer *lexer, t_command **command_list ,char **envp);
+
+//void 				expand(t_env *env , t_command **command);
 
 // exec builtin
 int		echo_builtin(char **args);
