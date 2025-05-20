@@ -6,7 +6,7 @@
 /*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/20 05:06:46 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/20 10:47:19 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void print_nodee (t_lexer *head)
         return;
     while (head)
     {
-        printf("%s : ->>>>>>>>>>>>> %u :\n" ,  head->content ,head->token);
+        printf("%s : ->>>>>>>>>>>>> %u ->>>>>>>>>>>>>>>>>>>>>>> %u :\n" ,  head->content ,head->token , head->quotes);
         head = head->next;
     }
 }
@@ -117,7 +117,7 @@ int main(int argc, char *argv[], char **envp)
     (void)argc;
     t_env *env;
     char *input;
-    t_lexer *lexer = NULL;
+    t_lexer *lexer_list = NULL;
     t_command *command = NULL;
     env = init_env(envp);
     //int i = 0;
@@ -127,38 +127,27 @@ int main(int argc, char *argv[], char **envp)
     while (1)
     {
         input = readline("minishell$ ");
-        parsing(input , &lexer);
-        parser(lexer, &command , envp);
-        // while (command)
-        // {
-        //     // while (command->argv[i])
-        //     // {
-        //     // if (i == 0)
-		// 	//     extract_path(command->argv[i], envp, &command);
-        //     // i++;
-        //     // }
-        //     command = command->next;
-        // }
-        
-    
-        print_node(command);
-        // print_nodee(lexer);
-        // if (input == NULL)
-        //     break; // Handle EOF or empty input
-        // if (*input) // Only add non-empty input
-        //     add_history(input);
-        // if (ft_strcmp(input, "exit") == 0)
-        // {
-        //     free(input);
-        //     break;
-        // }
-        // init_exc(command, env);
-        // if (command)
-        // {
-        //     free_commend(command);
-        //     command = NULL;
-        // }
-        // free(input);
+        lexer(input , &lexer_list);
+        parser(lexer_list, &command , envp);
+        expand(env , &command);
+        //print_node(command);
+        //print_nodee(lexer_list);
+        if (input == NULL)
+            break; // Handle EOF or empty input
+        if (*input) // Only add non-empty input
+            add_history(input);
+        if (ft_strcmp(input, "exit") == 0)
+        {
+            free(input);
+            break;
+        }
+        init_exc(command, env);
+        if (command)
+        {
+            free_commend(command);
+            command = NULL;
+        }
+        free(input);
     }
     write_history(".minishell_history");
     free_env(env);
