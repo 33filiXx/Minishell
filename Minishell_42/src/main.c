@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/21 18:42:20 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:30:49 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,50 +101,51 @@ void sigint_handler(int signo)
     write(1, "\nminishell$ ", 11);
 }
 
+        // print_node(command);
+        // print_nodee(lexer_list);
 int main(int argc, char *argv[], char **envp)
 {
     (void)argv;
     (void)argc;
-    t_env *env;
+
+    t_env *env = init_env(envp);
     char *input;
     t_lexer *lexer_list = NULL;
     t_command *command = NULL;
-    env = init_env(envp);
-    if (argc > 0)
+
+    signal(SIGINT, sigint_handler);
+    signal(SIGQUIT, SIG_IGN);
+
+    while (1)
     {
-        signal(SIGINT, sigint_handler);
-        while (1)
+        input = readline("minishell$ ");
+        if (!input)
+            ctrl_d_handle();
+        if (*input)
+            add_history(input);
+        lexer(input, &lexer_list);
+        char **env_char = list_to_char_array(env);
+        parser(lexer_list, &command, env_char);
+        free_split(env_char);
+        if (ft_strcmp(input, "exit") == 0)
         {
-            input = readline("minishell$ ");
-            lexer(input , &lexer_list);
-            parser(lexer_list, &command ,  list_to_char_array(env));
-            //expand(env , &command);
-            print_node(command);
-            print_nodee(lexer_list);
-            if (input == NULL)
-                break; // Handle EOF or empty input
-            if (*input) // Only add non-empty input
-                add_history(input);
-            if (ft_strcmp(input, "exit") == 0)
-            {
-                free(input);
-                break;
-            }
-            if (command && (command->pipe_in || command->pipe_out))
+            free(input);
+            break;
+        }
+        if (command)
+        {
+            if (command->pipe_in || command->pipe_out)
                 execute_pipeline(command, env);
             else
                 init_exc(command, env);
-            if (command)
-            {
-                free_commend(command);
-                command = NULL;
-            }
-            free(input);
+            free_commend(command);
+            command = NULL;
         }
-        write_history(".minishell_history");
-        free_env(env);
+        // free_lexer(lexer_list);
+        lexer_list = NULL;
+        free(input);
     }
-    // command = create_mock_command();
+    write_history(".minishell_history");
+    free_env(env);
     return *exit_stat();
 }
- 

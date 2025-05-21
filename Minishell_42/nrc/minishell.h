@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:26:08 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/21 18:42:10 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:26:29 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,10 @@ char	**list_to_char_array(t_env *list);
 void	execute_pipeline(t_command *cmd, t_env *env);
 void	redirections(t_command *cmd);
 void	close_all_pipes(int **pipes, int count);
+
+//signals
+void	ctrl_d_handle(void);
+void	sigint_handler(int sig);
+void	heredoc_sigint_handler(int sig);
 
 #endif

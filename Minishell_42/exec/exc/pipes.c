@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:12:37 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/21 17:05:57 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:31:31 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void	execute_pipeline(t_command *cmd, t_env *env)
 		}
 		else if (pid == 0)
 		{
+			signal(SIGINT, SIG_DFL);
+    		signal(SIGQUIT, SIG_DFL);
 			if (i > 0)
 				dup2(pipes[i - 1][0], STDIN_FILENO);
 			if (i < count - 1)
