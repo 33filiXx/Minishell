@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:12:37 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/20 17:55:03 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:14:27 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ int	count_commands(t_command *cmd)
 		cmd = cmd->next;
 	}
 	return (count);
+}
+
+void	close_all_pipes(int **pipes, int count)
+{
+	int i = 0;
+
+	while (i < count - 1)
+	{
+		close(pipes[i][0]);
+		close(pipes[i][1]);
+		i++;
+	}
 }
 
 void	execute_pipeline(t_command *cmd, t_env *env)
@@ -71,12 +83,7 @@ void	execute_pipeline(t_command *cmd, t_env *env)
 			if (i < count - 1)
 				dup2(pipes[i][1], STDOUT_FILENO);	
 			j = 0;
-			while (j < count - 1)
-			{
-				close(pipes[j][0]);
-				close(pipes[j][1]);
-				j++;
-			}
+			close_all_pipes(pipes, count);
 			if (current->redirs)
 				redirections(current);
 			if (!current->path)
@@ -96,10 +103,10 @@ void	execute_pipeline(t_command *cmd, t_env *env)
 		}
 	}
 	j = 0;
+	i = 0;
+	close_all_pipes(pipes, count);
 	while (j < count -1)
 	{
-		close(pipes[j][0]);
-		close(pipes[j][1]);
 		free(pipes[j]);
         j++;
 	}
