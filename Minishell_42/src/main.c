@@ -6,7 +6,7 @@
 /*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/21 18:10:46 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:14:57 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,13 @@ void print_node(t_command *head)
 void free_env(t_env *env)
 {
     t_env *temp;
-
+        //     break; // Handle EOF or empty input
+        // if (*input) // Only add non-empty input
+        //     add_history(input);
+        // if (ft_strcmp(input, "exit") == 0)
+        // {
+        //     free(input);
+        //     bre= strdup("grep");
     while (env)
     {
         temp = env;
@@ -112,7 +118,14 @@ int *exit_stat(void)
 //     // Second command: grep minishell
 //     t_command *cmd2 = malloc(sizeof(t_command));
 //     cmd2->argv = malloc(sizeof(char *) * 3);
-//     cmd2->argv[0] = strdup("grep");
+//     cmd2->argv[0]  if (input == NULL)
+        //     break; // Handle EOF or empty input
+        // if (*input) // Only add non-empty input
+        //     add_history(input);
+        // if (ft_strcmp(input, "exit") == 0)
+        // {
+        //     free(input);
+        //     bre= strdup("grep");
 //     cmd2->argv[1] = strdup("minishell");
 //     cmd2->argv[2] = NULL;
 //     cmd2->redirs = NULL;
