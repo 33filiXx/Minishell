@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:37:35 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/21 16:55:17 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:49:16 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	init_exc(t_command *cmd, t_env *env)
 void	redirections(t_command *cmd)
 {
 	t_redirection *redir;
-	int	fd;
+	int	fd, fd1, fd2;
 
 	redir = cmd->redirs;
 	while (redir)
@@ -96,33 +96,35 @@ void	redirections(t_command *cmd)
 				exit(1);
 			}
 			dup2(fd, STDIN_FILENO);
+			close(fd);
 		}
 		else if (redir->type == 2) //Output
         {	
-			fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd < 0)
+			fd1 = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd1 < 0)
 			{
 				perror(redir->filename);
 				exit(1);
 			}
-			dup2(fd, STDOUT_FILENO);
+			dup2(fd1, STDOUT_FILENO);
+			close(fd1);
 		}
 		else if (redir->type == 3) // Append
         {	
-			fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (fd < 0)
+			fd2 = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (fd2 < 0)
 			{
 				perror(redir->filename);
 				exit(1);
 			}
-			dup2(fd, STDOUT_FILENO);
+			dup2(fd2, STDOUT_FILENO);
+			close(fd2);
 		}
 		if (fd < 0)
 		{
 			perror("open failed");
 			exit(1);
 		}
-		close(fd);
 		redir = redir->next;
 	}
 }
