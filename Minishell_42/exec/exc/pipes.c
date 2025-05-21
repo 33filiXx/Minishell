@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:12:37 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/21 15:14:27 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:46:59 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,18 @@ void	close_all_pipes(int **pipes, int count)
 		close(pipes[i][1]);
 		i++;
 	}
+}
+
+int has_output_redirection(t_command *cmd)
+{
+    t_redirection *r = cmd->redirs;
+    while (r)
+    {
+        if (r->type == 2 || r->type == 3) // output or append
+            return 1;
+        r = r->next;
+    }
+    return 0;
 }
 
 void	execute_pipeline(t_command *cmd, t_env *env)
@@ -70,6 +82,7 @@ void	execute_pipeline(t_command *cmd, t_env *env)
     i = 0;
 	while (current)
 	{
+		// printf("%s\n" , current->argv[0]);
 		pid = fork();
 		if (pid < 0)
 		{
@@ -79,17 +92,16 @@ void	execute_pipeline(t_command *cmd, t_env *env)
 		else if (pid == 0)
 		{
 			if (i > 0)
-				dup2(pipes[i - 1][0], STDIN_FILENO);
-			if (i < count - 1)
-				dup2(pipes[i][1], STDOUT_FILENO);	
+    			dup2(pipes[i - 1][0], STDIN_FILENO);
+
+			if (i < count - 1 && !has_output_redirection(current))
+    			dup2(pipes[i][1], STDOUT_FILENO);
 			j = 0;
 			close_all_pipes(pipes, count);
 			if (current->redirs)
 				redirections(current);
-			if (!current->path)
+			if (!current->argv[0])
 			{
-				ft_putstr_fd(current->argv[0], 2);
-				ft_putstr_fd(": command not found\n", 2);
 				exit(127);
 			}
 			execve(current->path, current->argv, envp);
@@ -97,7 +109,7 @@ void	execute_pipeline(t_command *cmd, t_env *env)
 			exit(1);
 		}
 		else 
-		{	
+		{
 			i++;
 			current = current->next;
 		}

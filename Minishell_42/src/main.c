@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/21 15:20:38 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:18:57 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int main(int argc, char *argv[], char **envp)
         lexer(input , &lexer_list);
         parser(lexer_list, &command ,  list_to_char_array(env));
         //expand(env , &command);
-        //print_node(command);
+        //  print_node(command);
         // print_nodee(lexer_list);
         if (input == NULL)
             break; // Handle EOF or empty input
