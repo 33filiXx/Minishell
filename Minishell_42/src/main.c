@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/21 16:18:57 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:10:46 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,10 @@ int main(int argc, char *argv[], char **envp)
     {
         input = readline("minishell$ ");
         lexer(input , &lexer_list);
-        parser(lexer_list, &command ,  list_to_char_array(env));
-        //expand(env , &command);
+        //expand(env , &lexer_list);
+        //parser(lexer_list, &command ,  list_to_char_array(env));
         //  print_node(command);
-        // print_nodee(lexer_list);
+        //print_nodee(lexer_list);
         if (input == NULL)
             break; // Handle EOF or empty input
         if (*input) // Only add non-empty input
@@ -171,7 +171,7 @@ int main(int argc, char *argv[], char **envp)
     write_history(".minishell_history");
     free_env(env);
     }
-    // command = create_mock_command();
+    //command = create_mock_command();
     return *exit_stat();
 }
  

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:26:08 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/21 15:09:07 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:11:12 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void				ft_free_nodes(t_lexer *lexer);
 int					ft_strcmp(const char *s1, const char *s2);
 void				parser(t_lexer *lexer, t_command **command_list ,char **envp);
 
-//void 				expand(t_env *env , t_command **command);
+void 				expand(t_env *env , t_lexer **lexer);
 
 // exec builtin
 int		echo_builtin(char **args);
