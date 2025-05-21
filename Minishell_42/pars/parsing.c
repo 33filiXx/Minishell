@@ -6,7 +6,7 @@
 /*   By: wel-mjiy <wel-mjiy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:12:47 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/20 10:45:24 by wel-mjiy         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:59:46 by wel-mjiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ void	ft_free(char **ptr)
 	}
 	free(ptr);
 	ptr = NULL;
+}
+void check_helper_one(t_lexer *lexer)
+{
+	printf("bash: syntax error near unexpected token `newline'\n");
+	ft_free_nodes(lexer);
+	exit(1);
 }
 int checkquotes(char *str)
 {
@@ -71,10 +77,17 @@ int checkquotes(char *str)
 void	store_into_nodes(char *str, t_lexer **lexer)
 {
 	int		j;
+	int		i;
+	int		i_double;
+	int		i_single;
 	char	**new_str;
+	char 	*tmp = NULL;
 
 	new_str = ft_split(str, ' ');
 	j = 0;
+	i = 0;
+	i_double = 0;
+	i_single = 0;
 	while (new_str[j] != NULL)
 	{
 			if (ft_strcmp(new_str[j], "|") == 0)
@@ -89,32 +102,44 @@ void	store_into_nodes(char *str, t_lexer **lexer)
 				insert_at_end(lexer, new_str[j], HERDOC,3);
 			else
 			{
+					
 				if(checkquotes(new_str[j]) == 0)
-					insert_at_end(lexer, new_str[j], WORD , 0);
+				{
+					printf("helllllllllllllllll");
+					while (str[i_single] != '\'')
+					{
+						i_single++;
+					}
+					i_single++;
+					while (str[i_single] != '\'')
+					{
+						tmp[i] = str[i_single];
+						i++;
+						i_single++;
+					}
+					tmp[i] = '\0';
+					printf("%s" , tmp);
+					insert_at_end(lexer, tmp, WORD , 0);
+				}
 				else if (checkquotes(new_str[j]) == 1)
 					insert_at_end(lexer, new_str[j], WORD , 1);
 				else if (checkquotes(new_str[j]) == 2)
 					insert_at_end(lexer, new_str[j], WORD , 2);
 				else if (checkquotes(new_str[j]) == 3)
 					insert_at_end(lexer, new_str[j], WORD , 3);
-				else if (checkquotes(new_str[j]) == 4)
-					insert_at_end(lexer, new_str[j], WORD , 4);
-				else if (checkquotes(new_str[j]) == 5)
-					insert_at_end(lexer, new_str[j], WORD , 5);
-				else if (checkquotes(new_str[j]) == 6)
-					insert_at_end(lexer, new_str[j], WORD , 6);
+				// else if (checkquotes(new_str[j]) == 4)
+				// 	check_helper_one(*lexer);
+				// else if (checkquotes(new_str[j]) == 5)
+				// 	check_helper_one(*lexer);
+				// else if (checkquotes(new_str[j]) == 6)
+				// 	check_helper_one(*lexer);
 			}
 			//	free(*new_str);
 			j++;
 	}
 }
 
-void check_helper_one(t_lexer *lexer)
-{
-	printf("bash: syntax error near unexpected token `newline'\n");
-	ft_free_nodes(lexer);
-	exit(1);
-}
+
 int herdoc_counter(char *str)
 {
 	int i;
