@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/21 20:30:49 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:52:37 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int *exit_stat(void)
 void sigint_handler(int signo)
 {
     (void)signo;
-    write(1, "\nminishell$ ", 11);
+    write(1, "\n", 1);
 }
 
         // print_node(command);
