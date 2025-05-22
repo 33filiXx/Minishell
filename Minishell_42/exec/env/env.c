@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:47:23 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/22 16:04:21 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:47:53 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,17 @@ char	*get_env_value(t_env *env, const char *key)
 	return (NULL);
 }
 
+t_env	*find_env_node(t_env *env, const char *key)
+{
+	while (env)
+	{
+		if (ft_strcmp(env->key, key) == 0)
+			return (env);
+		env = env->next;
+	}
+	return (NULL);
+}
+
 void	set_env_value(t_env **env, const char *key, const char *value)
 {
 	t_env	*tmp;
@@ -164,5 +175,55 @@ void	print_env(t_env *env)
 		if (env->key && env->value)
 			printf("%s=%s\n", env->key, env->value);
 		env = env->next;
+	}
+}
+
+void	add_or_update_env(t_env **env_list, const char *key, const char *value)
+{
+	t_env	*node;
+
+	if (!key || !env_list)
+		return ;
+	node = find_env_node(*env_list, key);
+	if (node)
+	{
+		if (value != NULL)
+			node->value = ft_strdup(value);
+		else
+			node->value = NULL;
+		return ;
+	}
+	node = env_node_new(key, value);
+	if (!node)
+		return ;
+	env_add_back(env_list, node);
+}
+
+void	update_shlvl(t_env **env_list)
+{
+	int		shlvl;
+	char	*shlvl_str;
+	t_env	*node;
+
+	shlvl = 1;
+	node = find_env_node(*env_list, "SHLVL");
+	if (node && node->value)
+	{
+		shlvl = ft_atoi(node->value) + 1;
+		if (shlvl < 0)
+			shlvl = 0;
+		else if (shlvl > 999)
+		{
+			ft_putstr_fd("minishell: warning: shell level (", 2);
+			ft_putnbr_fd(shlvl, 2);
+			ft_putstr_fd(") too high, resetting to 1\n", 2);
+			shlvl = 1;
+		}
+	}
+	shlvl_str = ft_itoa(shlvl);
+	if (shlvl_str)
+	{
+		add_or_update_env(env_list, "SHLVL", shlvl_str);
+		free(shlvl_str);
 	}
 }

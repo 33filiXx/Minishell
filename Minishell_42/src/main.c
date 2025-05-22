@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:23:56 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/22 15:52:37 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:39:44 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,17 @@ int main(int argc, char *argv[], char **envp)
     (void)argv;
     (void)argc;
 
-    t_env *env = init_env(envp);
     char *input;
     t_lexer *lexer_list = NULL;
     t_command *command = NULL;
 
     signal(SIGINT, sigint_handler);
     signal(SIGQUIT, SIG_IGN);
-
+    t_env *env = init_env(envp);
+    if (!env)
+        init_minimal_env(&env);
+    else
+        update_shlvl(&env);
     while (1)
     {
         input = readline("minishell$ ");

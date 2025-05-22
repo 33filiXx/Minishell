@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:26:08 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/22 15:33:06 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:24:21 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ char	*get_env_value(t_env *env, const char *key);
 void	set_env_value(t_env **env, const char *key, const char *value);
 void	unset_env(t_env **env, const char *key);
 void    print_env(t_env *env);
+void	init_minimal_env(t_env **env);
+void	update_shlvl(t_env **env_list);
 
 // memory_management
 void	free_split(char **s);
