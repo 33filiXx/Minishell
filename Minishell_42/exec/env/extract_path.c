@@ -6,26 +6,23 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:02:00 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/05/20 21:08:22 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:38:41 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../nrc/minishell.h"
 
-// static	char	*get_command_path(char **cmd, char **envp, t_command **command_list)
-// {
-// 	char	*expath;
-
-// 	if (cmd && ft_strchr(cmd[0], '/'))
-// 	{
-// 		expath = ft_strdup(cmd[0]);
-// 		if (!expath)
-// 			return (NULL);
-// 	}
-// 	else
-// 		expath = extract_path(cmd[0], envp, command_list);
-// 	return (expath);
-// }
+void	get_command_path(char **cmd, char **envp, t_command **command_list)
+{
+	if (cmd && ft_strchr(cmd[0], '/'))
+	{
+		(*command_list)->path = ft_strdup(cmd[0]);
+		if (!(*command_list)->path)
+			return;
+	}
+	else
+		(*command_list)->path = extract_path(cmd[0], envp, command_list);
+}
 
 static	char	*join_path(char *path, char *cmd)
 {
@@ -42,7 +39,7 @@ static	char	*join_path(char *path, char *cmd)
 	return (fullpath);
 }
 
-void	extract_path(char *cmd, char **envp , t_command **command_list)
+char	*extract_path(char *cmd, char **envp , t_command **command_list)
 {
 	char	**path;
 	char	*fullpath;
@@ -50,11 +47,11 @@ void	extract_path(char *cmd, char **envp , t_command **command_list)
 
 	i = 0;
 	if (!command_list || !(*command_list))
-		return;
+		return (NULL);
 	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
 		i++;
 	if (envp[i] == NULL)
-		return;
+		return (NULL);
 	path = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (path && path[i])
@@ -62,15 +59,12 @@ void	extract_path(char *cmd, char **envp , t_command **command_list)
 		fullpath = join_path(path[i], cmd);
 		if (access(fullpath, X_OK) == 0)
 		{
-			(*command_list)->path = ft_strdup(fullpath);
-			free(fullpath);
 			free_split(path);
-			return;
-			//printf("%s\n", fullpath);
-			// if (*command_list)
+			return(fullpath);
 		}
 		free(fullpath);
 		i++;
 	}
 	free_split(path);
+	return (NULL);
 }

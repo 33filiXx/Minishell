@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:09:58 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/20 21:07:12 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:33:11 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	parser(t_lexer *lexer, t_command **command_list ,char **envp)
 		{
 			command->argv[i] = ft_strdup(lexer->content);
 			if (i == 0)
-				extract_path(command->argv[i], envp, &command);
+				get_command_path(&command->argv[i], envp, &command);
 			i++;
 			lexer = lexer->next;
 		}

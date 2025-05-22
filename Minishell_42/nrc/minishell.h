@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:26:08 by wel-mjiy          #+#    #+#             */
-/*   Updated: 2025/05/21 20:26:29 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:33:06 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ int		*exit_stat(void);
 //exc_start
 int		init_exc(t_command *cmd, t_env *env);
 void	excute_commend(t_command *cmd, char **env);
-void	extract_path(char *cmd, char **envp , t_command **command_list);
+char	*extract_path(char *cmd, char **envp , t_command **command_list);
+void	get_command_path(char **cmd, char **envp, t_command **command_list);
 char	**list_to_char_array(t_env *list);
 void	execute_pipeline(t_command *cmd, t_env *env);
 void	redirections(t_command *cmd);
